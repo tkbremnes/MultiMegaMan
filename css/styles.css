@@ -1,6 +1,82 @@
-#wrapper {
-	height: 500px;
-	width: 500px;
-	background: green;
-	padding: 5px;
+html {
+	margin: 0; padding: 0;
+}
+
+body
+{
+	margin: 0; padding: 0;
+  background: #111;
+}
+
+header{
+  text-align: center;
+}
+header h1
+{
+  margin: 0;
+}
+
+#page_wrapper
+{
+  background: #eaeaea;
+  height: 100%;
+  width: 100%;
+}
+
+#main_wrapper
+{
+  width: 500px;
+  margin: auto;
+  padding: 4em 0;
+}
+
+#disclaimer
+{
+  text-align: center;
+  color: #222;
+}
+
+#disclaimer p
+{
+  margin: 2em;
+  font-size: 3em;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  text-shadow: 0 1px 0 #303030;
+  font-family: PT Sans, sans-serif;
+  cursor: default;
+}
+
+
+#disclaimer ::selection
+{
+  background: lightblue;
+}
+
+
+#disclaimer a
+{
+  color: #222;
+  transition: color 0.4s;
+  text-decoration: none;
+}
+
+
+#disclaimer a:hover
+{
+  cursor: pointer;
+  text-shadow: 0 1px 0 #303030;
+  color: #2d2d2d;
+}
+
+
+
+h1, h2, h3, h4, h5, h6
+{
+  font-family: 'PT Sans', sans-serif;
+}
+
+p
+{
+  font-family: 'PT Serif', serif;
 }
