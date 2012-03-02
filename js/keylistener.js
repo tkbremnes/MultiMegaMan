@@ -9,8 +9,7 @@ function initKeyListener()
 		{
 			case(37):
 				// Left
-				startWalking('L');
-				startAnimation();
+				goLeft();
 
 				break;
 			case(38):
@@ -20,8 +19,7 @@ function initKeyListener()
 				break;
 			case(39):
 				// Right
-				startWalking('R');
-				startAnimation();
+				goRight();
 
 				break;
 			case(40):

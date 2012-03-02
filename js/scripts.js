@@ -120,7 +120,12 @@ var tempYdir = 1;
 function drawCharacter(){
 	var sprite;
 	if(player.isAirborne){
-		sprite = imgPlayerJumpRightSprite;
+		if(player.walksRight){
+			sprite = imgPlayerJumpRightSprite;
+		}
+		else{
+			sprite = imgPlayerJumpLeftSprite;
+		}
 	}
 	else if(player.walksRight){
 		sprite = imgPlayerSpriteRight;
@@ -256,6 +261,7 @@ function stopWalking(){
 }
 
 function startAnimation(){
+	if(!player.isAirborne){
 	if(!player.animating)
 	{
 		console.log("starting animation");
@@ -272,6 +278,10 @@ function startAnimation(){
 	{
 		animCycle = 0;
 	}
+	}
+	else{
+		animCycle = 0;
+	}
 }
 
 function jump(){
@@ -283,4 +293,14 @@ function stopAnimation(){
 	window.clearInterval(animInterval);	
 	player.animCycle = 0;
 	player.animating = false;
+}
+
+function goLeft(){
+	startWalking('L');
+	startAnimation();
+}
+
+function goRight(){
+	startWalking('R');
+	startAnimation();
 }
