@@ -1,12 +1,16 @@
+var keyIsDown = false;
+
 function initKeyListener()
 {
 	$(document).bind('keydown',function(e){
-
+		if(!keyIsDown){
+		keyIsDown = true;
 		switch(e.keyCode)
 		{
 			case(37):
 				// Left
-				moveLeft();
+				startAnimation();
+				startWalking('L');
 
 				break;
 			case(38):
@@ -16,7 +20,8 @@ function initKeyListener()
 				break;
 			case(39):
 				// Right
-				moveRight();
+				startAnimation();
+				startWalking('R');
 
 				break;
 			case(40):
@@ -24,19 +29,25 @@ function initKeyListener()
 				moveDown();
 
 				break;
-		}	
+		}
+		}
 	});
 	$(document).bind('keyup',function(e){
+		if(keyIsDown){
+		keyIsDown = false;
 		switch(e.keyCode)
 		{
 			case(37):
 				// Left
+				stopWalking();
 				stopAnimation();
 				break;
 			case(39):
 				// Right
+				stopWalking();
 				stopAnimation();
 				break;
+		}
 		}
 	});
 }

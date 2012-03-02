@@ -161,7 +161,6 @@ function drawFps(){
 
 function moveLeft()
 {
-	startAnimation();
 	player.walksRight = false;
 	player.x -= 2;
 }
@@ -186,7 +185,6 @@ function moveUp()
 
 function moveRight()
 {
-	startAnimation();
 	player.walksRight = true;
 	player.x += 2;
 }
@@ -218,13 +216,36 @@ function  enemyDie(enm)
 }
 
 var animInterval;
+var walkInterval;
+
+function startWalking(direction){
+	var dir;
+	if(direction == 'R')
+	{
+		dir = 'moveRight()';
+	}
+	else if(direction == 'L')
+	{
+		dir = 'moveLeft()';
+	}
+
+	if(!player.walking)
+	{
+		player.walking = true;
+		walkInterval = setInterval(dir, 15);
+	}
+}
+function stopWalking(){
+	window.clearInterval(walkInterval);
+	player.walking = false;
+}
 
 function startAnimation(){
-	if(player.animating)
+	if(!player.animating)
 	{
 		console.log("starting animation");
 		player.animating = true;
-		animInterval = setInterval('startAnimation()', 200);
+		animInterval = setInterval('startAnimation()', 150);
 	}
 	player.animCycle += 1;
 
