@@ -188,10 +188,14 @@ function isStandingOnGround()
 	if(player.y+player.height == wall.y){
 		if(player.x <= wall.width){
 			player.isAirborne = false;
+			if(!player.animating && player.walking){
+				startAnimation();
+			}
 			return true;
 		}
 	}
 	player.isAirborne = true;
+	stopAnimation();
 	return false;
 }
 
@@ -285,7 +289,6 @@ function startAnimation(){
 }
 
 function jump(){
-	stopAnimation();
 	moveUp();
 }
 
@@ -297,11 +300,13 @@ function stopAnimation(){
 }
 
 function goLeft(){
+	stopWalking();
 	startWalking('L');
 	startAnimation();
 }
 
 function goRight(){
+	stopWalking();
 	startWalking('R');
 	startAnimation();
 }
