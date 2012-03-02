@@ -53,6 +53,7 @@ function initKeyListener()
 				// Left
 				if(keyDownObj.left){
 					keyDownObj.left = false;
+					goingLeft = false;
 					stopWalking();
 					stopAnimation();
 				}
@@ -67,6 +68,7 @@ function initKeyListener()
 				// Right
 				if(keyDownObj.right){
 					keyDownObj.right = false;
+					goingRight = false;
 					stopWalking();
 					stopAnimation();
 				}

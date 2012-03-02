@@ -4,15 +4,15 @@ function Player(){
 
 	this.walksRight = true;
 
-	this.walkRightSprite = '../img/walkRight.gif';
-	this.walkLeftSprite = '../img/walkLeft.gif';
-	this.jumpRightSprite = '../img/jumpRight.gif';
-	this.jumpLeftSprite = '../img/jumpLeft.gif';
-
 	this.walkRightSpriteImage = new Image();
 	this.walkLeftSpriteImage = new Image();
 	this.jumpRightSpriteImage = new Image();
 	this.jumpLeftSpriteImage = new Image();
+
+	this.walkRightSpriteImage.src = '../img/walkRight.gif';
+	this.walkLeftSpriteImage.src = '../img/walkLeft.gif';
+	this.jumpRightSpriteImage.src = '../img/jumpRight.gif';
+	this.jumpLeftSpriteImage.src = '../img/jumpLeft.gif';	
 
 	this.animCycle = 0;
 	this.animating = false;
@@ -26,13 +26,14 @@ function Player(){
 
 	this.gravity = true;
 	this.isShooting = false;
+
+	this.x = 20;
+	this.y = 50;
+
 }
 
 Player.prototype.loadResources = function(){
-	this.walkRightSpriteImage.src = player.walkRightSprite;
-	this.walkLeftSpriteImage.src = player.walkLeftSprite;
-	this.jumpRightSpriteImage.src = player.jumpRightSprite;
-	this.jumpLeftSpriteImage.src = player.jumpLeftSprite;	
+	
 }
 
 Player.prototype.getSprite = function(){
@@ -67,3 +68,26 @@ Player.prototype.getSprite = function(){
 		return this.walkLeftSpriteImage;
 	}
 }
+
+Player.prototype.getSpritePosition = function(){
+	if(this.isAirborne){
+		return 0;
+	}
+	if(this.animating){
+		return this.width*this.animCycle;
+	}
+	else{
+		return 0;
+	}
+}
+
+// Player.prototype.isAnimating = function(){
+// 	if(this.isAirborne){
+// 		return false;
+// 	}
+// 	if(this.walking)
+// 	{
+// 		return true;
+// 	}
+// 	return false;
+// }

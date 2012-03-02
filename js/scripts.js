@@ -3,60 +3,34 @@ var ctx;
 var gravity = 5;
 var player;
 
-// player() = {
-// 	height: 24, // Height in pixels
-// 	width: 24,  // Width in pixels
+wall = {
+	x: 0,
+	y: 100,
+	width: 400,
+	height: 10,
+	isHazard: false
+};
 
-// 	walksRight: true,
-
-// 	walkRightSprite: '../img/walkRight.gif',
-// 	walkLeftSprite: '../img/walkLeft.gif',
-// 	jumpRightSprite: '../img/jumpRight.gif',
-// 	jumpLeftSprite: '../img/jumpLeft.gif',
-
-// 	animCycle: 0,
-// 	animating: false,
-
-// 	resourcesLoaded: false,
-
-// 	isAirborne: false,
-// 	jumpHeight: 50,
-
-// 	moveSpeed: 2,
-
-// 	gravity: true,
-// };
-wall = {};
-enemy = {};
+enemy = {
+	// x: 20,
+	// y: 80,
+	// width: 10,
+	// height: 20,
+	// isHazard: true
+};
 
 
 function init()
 {
 	player = new Player();
-	player.loadResources();
 
 	initCanvas();
 	initKeyListener();
 
-	// STARTPOS
-	player.x = 20;
-	player.y = 50;
-
-	wall.x = 0;
-	wall.y = 100;
-	wall.width = 400;
-	wall.height = 10;
-	wall.isHazard = false;
-
-	// enemy.x = 20;
-	// enemy.y = 80;
-	// enemy.width = 10;
-	// enemy.height = 20;
-	// enemy.isHazard = true;
-
 	setInterval('draw()', 20);
 	setInterval('doGravity()', 5);
 }
+
 
 
 function initCanvas()
@@ -91,10 +65,11 @@ function drawEnvironment(){
 
 var tempXdir = 1;
 var tempYdir = 1;
+
 function drawCharacter(){
 	ctx.drawImage(
 		player.getSprite(),
-		player.width*player.animCycle,
+		player.getSpritePosition(),
 		0,
 		player.width,
 		player.height,
@@ -108,12 +83,23 @@ function drawCharacter(){
 var fallspeed = 0;
 function doGravity() {
 	if(player.gravity){
-	if(!isStandingOnGround()){
-//		console.log("fall down damn you!");
-		fallspeed += gravity;
-		player.y += 1;
+		if(!isStandingOnGround()){
+			player.isAirborne = true;
+			fallspeed += gravity;
+			player.y += 1;
+		}
+		else{
+			player.isAirborne = false;
+		}
 	}
-	}
+	// if(player.isAirborne)
+	// {
+	// 	stopAnimation();
+	// }
+	// else if(player.walking && !player.animating)
+	// {
+	// 	startAnimation();
+	// }
 }
 
 function collisionDetector()
@@ -136,23 +122,18 @@ function moveLeft()
 {
 	player.walksRight = false;
 	player.x -= player.moveSpeed;
-
-	player.test;
+	if(!player.animating && !player.isAirborne){
+		startAnimation();
+	}
 }
 
 function isStandingOnGround()
 {
 	if(player.y+player.height == wall.y){
 		if(player.x <= wall.width){
-			player.isAirborne = false;
-			if(!player.animating && player.walking){
-				startAnimation();
-			}
 			return true;
 		}
 	}
-	player.isAirborne = true;
-	stopAnimation();
 	return false;
 }
 
@@ -160,11 +141,13 @@ var jumpInterval;
 var currentJumpHeight;
 function jump(){
 	if(!player.isAirborne){
-	disablePlayerGravity();
-	currentJumpHeight = 0;
-	if(isStandingOnGround()) {
-		jumpInterval = setInterval('moveUp()', 1);
-	}
+		player.isAirborne = true;
+		disablePlayerGravity();
+		currentJumpHeight = 0;
+		
+		if(isStandingOnGround()) {
+			jumpInterval = setInterval('moveUp()', 2);
+		}
 	}
 }
 
@@ -191,6 +174,9 @@ function moveRight()
 {
 	player.walksRight = true;
 	player.x += player.moveSpeed;
+	if(!player.animating && !player.isAirborne){
+		startAnimation();
+	}
 }
 
 function moveDown()
@@ -245,46 +231,40 @@ function stopWalking(){
 }
 
 function startAnimation(){
-	if(!player.isAirborne){
-	if(!player.animating)
-	{
-		animInterval = setInterval('startAnimation()', 150);
-		player.animating = true;
-
-	}
-	player.animCycle += 1;
-
-	if(player.animCycle==4)
-	{
-		player.animCycle = 1;
-	}
-	else
-	{
-		animCycle = 0;
-	}
+	if(player.isAirborne){
+		stopAnimation();
 	}
 	else{
-		animCycle = 0;
+		if(!player.animating)
+		{
+			animInterval = setInterval('startAnimation()', 150);
+			player.animating = true;
+		}
+
+		player.animCycle += 1;
+
+		if(player.animCycle==4)
+		{
+			player.animCycle = 1;
+		}
 	}
 }
 
 
-
 function stopAnimation(){
-	console.log("stopping animation");
 	window.clearInterval(animInterval);	
 	player.animCycle = 0;
 	player.animating = false;
 }
 
+var goingLeft;
 function goLeft(){
-	stopWalking();
 	startWalking('L');
 	startAnimation();
 }
 
+var goingRight;
 function goRight(){
-	stopWalking();
 	startWalking('R');
 	startAnimation();
 }
