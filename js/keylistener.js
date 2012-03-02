@@ -1,51 +1,82 @@
 var keyIsDown = false;
+var keyDownObj = {
+	left: false,
+	right: false,
+	up: false,
+	down: false,
+	kd: false
+};
 
 function initKeyListener()
 {
 	$(document).bind('keydown',function(e){
-		if(!keyIsDown){
-		keyIsDown = true;
 		switch(e.keyCode)
 		{
 			case(37):
 				// Left
-				goLeft();
-
+				if(!keyDownObj.left){
+					keyDownObj.left = true;
+					goLeft();
+				}
 				break;
+
 			case(38):
 				// Up
-				jump();
-
+				if(!keyDownObj.up){
+					keyDownObj.up = true;
+					jump();
+				}
 				break;
+
 			case(39):
 				// Right
-				goRight();
-
+				if(!keyDownObj.right){
+					keyDownObj.right = true;
+					goRight();
+				}
 				break;
+
 			case(40):
 				// Down
-				moveDown();
-
+				if(!keyDownObj.down){
+					keyDownObj.down = true;
+					moveDown();
+				}
 				break;
-		}
+
 		}
 	});
 	$(document).bind('keyup',function(e){
-		if(keyIsDown){
-		keyIsDown = false;
 		switch(e.keyCode)
 		{
 			case(37):
 				// Left
-				stopWalking();
-				stopAnimation();
+				if(keyDownObj.left){
+					keyDownObj.left = false;
+					stopWalking();
+					stopAnimation();
+				}
+				break;
+			case(38):
+				// Up
+				if(keyDownObj.up){
+					keyDownObj.up = false;
+				}
 				break;
 			case(39):
 				// Right
-				stopWalking();
-				stopAnimation();
+				if(keyDownObj.right){
+					keyDownObj.right = false;
+					stopWalking();
+					stopAnimation();
+				}
 				break;
-		}
+			case(40):
+				//Down
+				if(keyDownObj.down){
+					keyDownObj.down = false;
+				}
+				break;
 		}
 	});
 }

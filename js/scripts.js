@@ -285,6 +285,7 @@ function startAnimation(){
 }
 
 function jump(){
+	stopAnimation();
 	moveUp();
 }
 
