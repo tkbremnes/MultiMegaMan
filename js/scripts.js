@@ -10,11 +10,16 @@ player = {
 
 	walkRightSprite: '../img/walkRight.gif',
 	walkLeftSprite: '../img/walkLeft.gif',
+	jumpRightSprite: '../img/jumpRight.gif',
+	jumpLeftSprite: '../img/jumpLeft.gif',
 
 	animCycle: 0,
 	animating: false,
 
 	resourcesLoaded: false,
+
+	isAirborne: false,
+	jumpHeight: 40,
 
 	// getSprite: function(){
 	// 	if(player.walksRight){
@@ -39,10 +44,15 @@ var imgPlayerSpriteLeft;
 function loadResources(){
 	imgPlayerSpriteRight = new Image();
 	imgPlayerSpriteLeft = new Image();
+	imgPlayerJumpRightSprite = new Image();
+	imgPlayerJumpLeftSprite = new Image();
+
 	imgPlayerSpriteRight.src = player.walkRightSprite;
 	imgPlayerSpriteLeft.src = player.walkLeftSprite;
+	imgPlayerJumpRightSprite.src = player.jumpRightSprite;
+	imgPlayerJumpLeftSprite.src = player.jumpLeftSprite;
 
-	imgPlayerSpriteLeft.onload = function(){
+	imgPlayerJumpLeftSprite.onload = function(){
 		player.resourcesLoaded = true;
 	};
 }
@@ -109,7 +119,10 @@ var tempXdir = 1;
 var tempYdir = 1;
 function drawCharacter(){
 	var sprite;
-	if(player.walksRight){
+	if(player.isAirborne){
+		sprite = imgPlayerJumpRightSprite;
+	}
+	else if(player.walksRight){
 		sprite = imgPlayerSpriteRight;
 	}
 	else
@@ -169,9 +182,11 @@ function isStandingOnGround()
 {
 	if(player.y+player.height == wall.y){
 		if(player.x <= wall.width){
+			player.isAirborne = false;
 			return true;
 		}
 	}
+	player.isAirborne = true;
 	return false;
 }
 
@@ -253,6 +268,14 @@ function startAnimation(){
 	{
 		player.animCycle = 1;
 	}
+	else
+	{
+		animCycle = 0;
+	}
+}
+
+function jump(){
+	moveUp();
 }
 
 function stopAnimation(){

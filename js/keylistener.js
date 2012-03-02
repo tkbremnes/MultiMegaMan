@@ -9,19 +9,19 @@ function initKeyListener()
 		{
 			case(37):
 				// Left
-				startAnimation();
 				startWalking('L');
+				startAnimation();
 
 				break;
 			case(38):
 				// Up
-				moveUp();
+				jump();
 
 				break;
 			case(39):
 				// Right
-				startAnimation();
 				startWalking('R');
+				startAnimation();
 
 				break;
 			case(40):
