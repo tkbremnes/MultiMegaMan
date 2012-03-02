@@ -20,7 +20,7 @@ function initKeyListener()
 				}
 				break;
 
-			case(38):
+			case(88):
 				// Up
 				if(!keyDownObj.up){
 					keyDownObj.up = true;
@@ -58,7 +58,7 @@ function initKeyListener()
 					stopAnimation();
 				}
 				break;
-			case(38):
+			case(88):
 				// Up
 				if(keyDownObj.up){
 					keyDownObj.up = false;
