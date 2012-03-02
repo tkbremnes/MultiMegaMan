@@ -1,72 +1,46 @@
 var canvas;
 var ctx;
 var gravity = 5;
+var player;
 
-player = {
-	height: 24, // Height in pixels
-	width: 24,  // Width in pixels
+// player() = {
+// 	height: 24, // Height in pixels
+// 	width: 24,  // Width in pixels
 
-	walksRight: true,
+// 	walksRight: true,
 
-	walkRightSprite: '../img/walkRight.gif',
-	walkLeftSprite: '../img/walkLeft.gif',
-	jumpRightSprite: '../img/jumpRight.gif',
-	jumpLeftSprite: '../img/jumpLeft.gif',
+// 	walkRightSprite: '../img/walkRight.gif',
+// 	walkLeftSprite: '../img/walkLeft.gif',
+// 	jumpRightSprite: '../img/jumpRight.gif',
+// 	jumpLeftSprite: '../img/jumpLeft.gif',
 
-	animCycle: 0,
-	animating: false,
+// 	animCycle: 0,
+// 	animating: false,
 
-	resourcesLoaded: false,
+// 	resourcesLoaded: false,
 
-	isAirborne: false,
-	jumpHeight: 40,
+// 	isAirborne: false,
+// 	jumpHeight: 50,
 
-	// getSprite: function(){
-	// 	if(player.walksRight){
-	// 		return walkRightSprite;
-	// 	}
-	// 	else{
-	// 		return walkLeftSprite;
-	// 	}
-	// },
+// 	moveSpeed: 2,
 
-	// reverseWalkingDirection: function(){
-	// 	walksRight = !walksRight;
-	// },
-};
+// 	gravity: true,
+// };
 wall = {};
-
 enemy = {};
 
-var imgPlayerSpriteRight;
-var imgPlayerSpriteLeft;
-
-function loadResources(){
-	imgPlayerSpriteRight = new Image();
-	imgPlayerSpriteLeft = new Image();
-	imgPlayerJumpRightSprite = new Image();
-	imgPlayerJumpLeftSprite = new Image();
-
-	imgPlayerSpriteRight.src = player.walkRightSprite;
-	imgPlayerSpriteLeft.src = player.walkLeftSprite;
-	imgPlayerJumpRightSprite.src = player.jumpRightSprite;
-	imgPlayerJumpLeftSprite.src = player.jumpLeftSprite;
-
-	imgPlayerJumpLeftSprite.onload = function(){
-		player.resourcesLoaded = true;
-	};
-}
 
 function init()
 {
-	loadResources();
+	player = new Player();
+	player.loadResources();
 
 	initCanvas();
 	initKeyListener();
 
 	// STARTPOS
 	player.x = 20;
-	player.y = 10;
+	player.y = 50;
 
 	wall.x = 0;
 	wall.y = 100;
@@ -81,6 +55,7 @@ function init()
 	// enemy.isHazard = true;
 
 	setInterval('draw()', 20);
+	setInterval('doGravity()', 5);
 }
 
 
@@ -98,7 +73,6 @@ function draw()
 	drawEnvironment();
 	drawCharacter();
 	drawEnemies();
-	doGravity();
 	collisionDetector();
 	drawFps();
 }
@@ -118,46 +92,27 @@ function drawEnvironment(){
 var tempXdir = 1;
 var tempYdir = 1;
 function drawCharacter(){
-	var sprite;
-	if(player.isAirborne){
-		if(player.walksRight){
-			sprite = imgPlayerJumpRightSprite;
-		}
-		else{
-			sprite = imgPlayerJumpLeftSprite;
-		}
-	}
-	else if(player.walksRight){
-		sprite = imgPlayerSpriteRight;
-	}
-	else
-	{
-		sprite = imgPlayerSpriteLeft;
-	}
-		// drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
-		ctx.drawImage(
-			sprite,
-			player.width*player.animCycle,
-			0,
-			player.width,
-			player.height,
-			player.x,
-			player.y,
-			player.width,
-			player.height
-		);
-	// }
-
-	
+	ctx.drawImage(
+		player.getSprite(),
+		player.width*player.animCycle,
+		0,
+		player.width,
+		player.height,
+		player.x,
+		player.y,
+		player.width,
+		player.height
+	);
 }
-
 
 var fallspeed = 0;
 function doGravity() {
+	if(player.gravity){
 	if(!isStandingOnGround()){
 //		console.log("fall down damn you!");
 		fallspeed += gravity;
-		player.y += 2;
+		player.y += 1;
+	}
 	}
 }
 
@@ -180,7 +135,9 @@ function drawFps(){
 function moveLeft()
 {
 	player.walksRight = false;
-	player.x -= 2;
+	player.x -= player.moveSpeed;
+
+	player.test;
 }
 
 function isStandingOnGround()
@@ -199,18 +156,41 @@ function isStandingOnGround()
 	return false;
 }
 
+var jumpInterval;
+var currentJumpHeight;
+function jump(){
+	if(!player.isAirborne){
+	disablePlayerGravity();
+	currentJumpHeight = 0;
+	if(isStandingOnGround()) {
+		jumpInterval = setInterval('moveUp()', 1);
+	}
+	}
+}
+
 function moveUp()
 {
-	// Can only jump with solid ground beneath feet
-	if(isStandingOnGround()) {
-		player.y -= 40;
+	player.y -= 2;
+	currentJumpHeight += 2;
+	if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight){
+		window.clearInterval(jumpInterval);
+		currentJumpHeight = 0;
+		enablePlayerGravity();
 	}
+}
+
+function disablePlayerGravity(){
+	player.gravity = false;
+}
+
+function enablePlayerGravity(){
+	player.gravity = true;
 }
 
 function moveRight()
 {
 	player.walksRight = true;
-	player.x += 2;
+	player.x += player.moveSpeed;
 }
 
 function moveDown()
@@ -268,9 +248,9 @@ function startAnimation(){
 	if(!player.isAirborne){
 	if(!player.animating)
 	{
-		console.log("starting animation");
-		player.animating = true;
 		animInterval = setInterval('startAnimation()', 150);
+		player.animating = true;
+
 	}
 	player.animCycle += 1;
 
@@ -288,9 +268,7 @@ function startAnimation(){
 	}
 }
 
-function jump(){
-	moveUp();
-}
+
 
 function stopAnimation(){
 	console.log("stopping animation");
