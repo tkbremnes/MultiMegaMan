@@ -107,9 +107,13 @@ function doGravity() {
 function collisionDetector()
 {
 	// checks for projectile hits
-	for(var i=0; i<players.length; i++){
-		// if(projectiles[0].x == )
-	}
+	projectiles.forEach(function(bullet){
+		players.forEach(function(p){
+			if(collides(bullet, p)){
+				p.hit();
+			}
+		});
+	});
 
 	// BELOW: OLD CODE
 	//
@@ -122,6 +126,15 @@ function collisionDetector()
 	// 	enemyDie(enemy);
 	// }
 }
+
+// source: http://www.html5rocks.com/en/tutorials/canvas/notearsgame/#toc-collision-detection
+function collides(a, b) {
+  return a.x < b.x + b.width &&
+         a.x + a.width > b.x &&
+         a.y < b.y + b.height &&
+         a.y + a.height > b.y;
+}
+
 
 function drawFps(){
 	
@@ -295,12 +308,14 @@ function fire(){
 
 	// Create projectile
 	projectile = new Projectile(player, 0, 1);
-	projectiles[0] = projectile;
+	projectiles.push(projectile);
 
 	// Draw projectile
 
-	projectileInverval = setInterval('projectile.move()', projectile.speed);
-	destoyProjectileInterval = setInterval('destroyProjectile()', 1000);
+	projectileInverval = setInterval('projectile.update()', projectile.speed);
+	destoyProjectileInterval = setInterval(function(){
+		destroyProjectile(projectile);
+	}, 1000);
 }
 
 function drawProjectiles(){
@@ -313,8 +328,16 @@ function drawProjectiles(){
 	}
 }
 
-function destroyProjectile(){
+
+
+function destroyProjectile(proj){
+	proj.active = false;
+
 	window.clearInterval(projectileInverval);
 	window.clearInterval(destoyProjectileInterval);
-	projectiles[0] = null;
+	
+	// thanks http://www.html5rocks.com/en/tutorials/canvas/notearsgame/#toc-collision-detection
+	projectiles = projectiles.filter(function(p) {
+    	return p.active;
+  	});
 }

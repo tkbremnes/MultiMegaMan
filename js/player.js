@@ -93,5 +93,5 @@ Player.prototype.fireWeapon = function(){
 }
 
 Player.prototype.hit = function(damage){
-
+	console.log("player has been hit");
 }

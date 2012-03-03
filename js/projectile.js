@@ -1,4 +1,6 @@
 function Projectile(p, w, ispeed) {
+	this.active = true;
+
 	this.player = player;
 
 	this.x = player.x;
@@ -22,7 +24,7 @@ function Projectile(p, w, ispeed) {
 
 	this.speed = ispeed;
 }
-Projectile.prototype.move = function(){
+Projectile.prototype.update = function(){
 	this.x += this.vecX;
 	this.x += this.vecY;
 }
