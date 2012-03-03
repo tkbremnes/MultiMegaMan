@@ -30,6 +30,9 @@ function Player(){
 	this.x = 20;
 	this.y = 50;
 
+	this.health = 10;
+
+	this.weapon = 'dummy';
 }
 
 Player.prototype.loadResources = function(){
@@ -81,13 +84,10 @@ Player.prototype.getSpritePosition = function(){
 	}
 }
 
-// Player.prototype.isAnimating = function(){
-// 	if(this.isAirborne){
-// 		return false;
-// 	}
-// 	if(this.walking)
-// 	{
-// 		return true;
-// 	}
-// 	return false;
-// }
+Player.prototype.fireWeapon = function(){
+
+}
+
+Player.prototype.hit = function(damage){
+
+}

@@ -47,6 +47,7 @@ function draw()
 	drawEnvironment();
 	drawCharacter();
 	drawEnemies();
+	drawProjectiles();
 	collisionDetector();
 	drawFps();
 }
@@ -267,4 +268,27 @@ var goingRight;
 function goRight(){
 	startWalking('R');
 	startAnimation();
+}
+
+var projectiles = [];
+var projectile;
+var projectileInverval;
+function fire(){
+	window.clearInterval(projectileInverval);
+
+	// Create projectile
+	projectile = new Projectile(player, 0, 1);
+	projectiles[0] = projectile;
+
+	// Draw projectile
+
+	projectileInverval = setInterval('projectile.move()', projectile.speed);
+}
+
+function drawProjectiles(){
+	ctx.fillStyle = 'rgb(255,0,0)';
+	for(var i=0; i<projectiles.length; i++){
+		var p = projectiles[i];
+		ctx.fillRect(p.x, p.y, p.width, p.height);
+	}
 }
