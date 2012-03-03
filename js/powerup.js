@@ -99,5 +99,48 @@ PowerUpDamage.prototype.applyEffect = function(p) {
 	p.weapon.damage += 1;
 }
 
-function PowerUpProjectileSpeed(ix, iy){
+function PowerUpProjectileTravelDistance(ix, iy){
+	this.active = true;
+
+	this.hitboxWidth = 16;
+	this.hitboxHeight = 16;
+
+	this.height = 16;
+	this.width = 16;
+
+	this.x = ix;
+	this.y = iy;
+
+	this.spriteImage = new Image();
+	this.spriteImage.src = '../img/etank.gif';
 }
+PowerUpProjectileTravelDistance.prototype.getSprite = function() {
+	return this.spriteImage;
+}
+PowerUpProjectileTravelDistance.prototype.applyEffect = function(p) {
+	p.weapon.projectileTravelDistance += 100;
+}
+
+
+function PowerUpProjectileSpeed(ix, iy){
+	this.active = true;
+
+	this.hitboxWidth = 16;
+	this.hitboxHeight = 16;
+
+	this.height = 16;
+	this.width = 16;
+
+	this.x = ix;
+	this.y = iy;
+
+	this.spriteImage = new Image();
+	this.spriteImage.src = '../img/etank.gif';
+}
+PowerUpProjectileSpeed.prototype.getSprite = function() {
+	return this.spriteImage;
+}
+PowerUpProjectileSpeed.prototype.applyEffect = function(p) {
+	p.weapon.projectileSpeed += 5;
+}
+

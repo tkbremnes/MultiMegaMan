@@ -12,7 +12,7 @@ function Projectile(p, weapon) {
 	this.width = 5;
 	this.height = 5;
 
-	this.moveSpeed = 5;
+	this.moveSpeed = weapon.projectileSpeed;
 
 	this.damage = weapon.damage;
 
@@ -30,7 +30,7 @@ function Projectile(p, weapon) {
 
 	this.speed = weapon.speed;
 
-	this.travelLength = 100;
+	this.travelDistance = weapon.projectileTravelDistance;
 }
 Projectile.prototype.update = function(){
 	this.x += this.vecX;
@@ -45,12 +45,12 @@ Projectile.prototype.update = function(){
 	}
 
 	if(this.vecX>0){
-		if(this.x >= this.startX+this.travelLength){
+		if(this.x >= this.startX+this.travelDistance){
 			this.destroy();
 		}
 	}
 	else{
-		if(this.x <= this.startX-this.travelLength){
+		if(this.x <= this.startX-this.travelDistance){
 			this.destroy();
 		}
 	}

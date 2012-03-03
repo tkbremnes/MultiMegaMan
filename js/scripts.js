@@ -20,7 +20,7 @@ function init()
 	setInterval('doGravity()', 5);
 
 	setTimeout(function(){
-		powerups.push(new PowerUpDamage(64,49));
+		powerups.push(new PowerUpProjectileSpeed(480,49));
 	}, 500);
 }
 
