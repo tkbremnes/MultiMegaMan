@@ -1,4 +1,4 @@
-function Player(){
+function Player(startx, starty){
 	this.height = 24; // Height in pixels
 	this.width = 24;  // Width in pixels
 
@@ -9,10 +9,15 @@ function Player(){
 	this.jumpRightSpriteImage = new Image();
 	this.jumpLeftSpriteImage = new Image();
 
+	this.tempWalkRightShootingSpriteImage = new Image();
+	this.tempWalkLeftShootingSpriteImage = new Image();
+	this.tempWalkRightShootingSpriteImage.src = '../img/shootingTempRight.gif';
+	this.tempWalkLeftShootingSpriteImage.src = '../img/shootingTempLeft.gif';
+
 	this.walkRightSpriteImage.src = '../img/walkRight.gif';
 	this.walkLeftSpriteImage.src = '../img/walkLeft.gif';
 	this.jumpRightSpriteImage.src = '../img/jumpRight.gif';
-	this.jumpLeftSpriteImage.src = '../img/jumpLeft.gif';	
+	this.jumpLeftSpriteImage.src = '../img/jumpLeft.gif';
 
 	this.animCycle = 0;
 	this.animating = false;
@@ -20,6 +25,7 @@ function Player(){
 	this.resourcesLoaded = false;
 
 	this.isAirborne = false;
+	this.isShooting = false;
 	this.jumpHeight = 50;
 
 	this.moveSpeed = 2;
@@ -27,8 +33,8 @@ function Player(){
 	this.gravity = true;
 	this.isShooting = false;
 
-	this.x = 20;
-	this.y = 50;
+	this.x = startx;
+	this.y = starty;
 
 	this.health = 10;
 
@@ -52,6 +58,7 @@ Player.prototype.getSprite = function(){
 		}
 		if(this.isShooting){
 			// TODO
+			return this.tempWalkRightShootingSpriteImage;
 		}
 		return this.walkRightSpriteImage;
 	}
@@ -67,13 +74,14 @@ Player.prototype.getSprite = function(){
 		}
 		if(this.isShooting){
 			// TODO
+			return this.tempWalkLeftShootingSpriteImage;
 		}
 		return this.walkLeftSpriteImage;
 	}
 }
 
 Player.prototype.getSpritePosition = function(){
-	if(this.isAirborne){
+	if(this.isAirborne || this.isShooting){
 		return 0;
 	}
 	if(this.animating){

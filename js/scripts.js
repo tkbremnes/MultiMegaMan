@@ -19,10 +19,12 @@ enemy = {
 	// isHazard: true
 };
 
-
+var players = [];
 function init()
 {
-	player = new Player();
+	player = new Player(20, 50);
+	players[0] = player;
+	players[1] = new Player(60, 50);
 
 	initCanvas();
 	initKeyListener();
@@ -45,7 +47,7 @@ function draw()
 {
 	refreshScreen();
 	drawEnvironment();
-	drawCharacter();
+	drawCharacters();
 	drawEnemies();
 	drawProjectiles();
 	collisionDetector();
@@ -67,40 +69,39 @@ function drawEnvironment(){
 var tempXdir = 1;
 var tempYdir = 1;
 
-function drawCharacter(){
-	ctx.drawImage(
-		player.getSprite(),
-		player.getSpritePosition(),
-		0,
-		player.width,
-		player.height,
-		player.x,
-		player.y,
-		player.width,
-		player.height
-	);
+function drawCharacters(){
+	for(var i=0; i<players.length; i++){
+		var p = players[i];
+		
+		ctx.drawImage(
+			p.getSprite(),
+			p.getSpritePosition(),
+			0,
+			p.width,
+			p.height,
+			p.x,
+			p.y,
+			p.width,
+			p.height
+		);
+	}
 }
 
 var fallspeed = 0;
 function doGravity() {
-	if(player.gravity){
-		if(!isStandingOnGround()){
-			player.isAirborne = true;
-			fallspeed += gravity;
-			player.y += 1;
-		}
-		else{
-			player.isAirborne = false;
+	for(var i=0; i<players.length; i++){
+		var p = players[i];
+		if(p.gravity){
+			if(!isStandingOnGround()){
+				p.isAirborne = true;
+				fallspeed += gravity;
+				p.y += 1;
+			}
+			else{
+				p.isAirborne = false;
+			}
 		}
 	}
-	// if(player.isAirborne)
-	// {
-	// 	stopAnimation();
-	// }
-	// else if(player.walking && !player.animating)
-	// {
-	// 	startAnimation();
-	// }
 }
 
 function collisionDetector()
@@ -273,8 +274,11 @@ function goRight(){
 var projectiles = [];
 var projectile;
 var projectileInverval;
+var destoyProjectileInterval;
 function fire(){
+
 	window.clearInterval(projectileInverval);
+	player.isShooting = true;
 
 	// Create projectile
 	projectile = new Projectile(player, 0, 1);
@@ -283,12 +287,21 @@ function fire(){
 	// Draw projectile
 
 	projectileInverval = setInterval('projectile.move()', projectile.speed);
+	destoyProjectileInterval = setInterval('destroyProjectile()', 1000);
 }
 
 function drawProjectiles(){
 	ctx.fillStyle = 'rgb(255,0,0)';
 	for(var i=0; i<projectiles.length; i++){
 		var p = projectiles[i];
-		ctx.fillRect(p.x, p.y, p.width, p.height);
+		if(p!=null){	
+			ctx.fillRect(p.x, p.y, p.width, p.height);
+		}
 	}
+}
+
+function destroyProjectile(){
+	window.clearInterval(projectileInverval);
+	window.clearInterval(destoyProjectileInterval);
+	projectiles[0] = null;
 }
