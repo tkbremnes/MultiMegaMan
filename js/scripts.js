@@ -120,14 +120,7 @@ function isStandingOnGround(p)
 		}
 		return false;
 	}
-	else{ // FILTHY DIRTY HACK!
-		if(player.y+player.height == wall.y){
-			if(player.x <= wall.width){
-				return true;
-			}
-		}
-		return false;
-	}
+	return true;
 }
 
 
