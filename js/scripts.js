@@ -91,7 +91,9 @@ function doGravity() {
 			if(!isStandingOnGround(p)){
 				p.isAirborne = true;
 				fallspeed += gravity;
+
 				p.y += 1;
+
 			}
 			else{
 				p.isAirborne = false;
@@ -103,6 +105,8 @@ function doGravity() {
 function isStandingOnGround(p)
 {
 	if(p!==undefined){
+		return wallCollisionDetector(p);
+
 		if(p.y+p.height == wall.y){
 			if(p.x <= wall.width){
 				return true;
@@ -140,8 +144,33 @@ function collides(a, b) {
 function moveLeft()
 {
 	player.walksRight = false;
-	if(player.x>=0){
-		player.x -= player.moveSpeed;
+
+	if(!wallSideCollisionDetector(player)){
+		if(player.x>=0){
+			player.x -= player.moveSpeed;
+		}
+	}
+	else{
+		player.x +=2;
+	}
+	if(!player.animating && !player.isAirborne){
+		startAnimation();
+	}
+}
+
+function moveRight()
+{
+	player.walksRight = true;
+	
+	// TODO
+	if(!wallSideCollisionDetector(player))
+	{
+		if(player.x<=500-player.width){
+			player.x += player.moveSpeed;
+		}
+	}
+	else{
+		player.x -= 2;
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
@@ -150,6 +179,7 @@ function moveLeft()
 
 var jumpInterval;
 var currentJumpHeight;
+
 function jump(){
 	if(!player.isAirborne){
 		player.isAirborne = true;
@@ -166,7 +196,7 @@ function moveUp()
 {
 	player.y -= 2;
 	currentJumpHeight += 2;
-	if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight){
+	if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight || wallCollisionDetector(player)){
 		window.clearInterval(jumpInterval);
 		currentJumpHeight = 0;
 		enablePlayerGravity();
@@ -177,18 +207,7 @@ function enablePlayerGravity(){
 	player.gravity = true;
 }
 
-function moveRight()
-{
-	player.walksRight = true;
-	
-	// TODO
-	if(player.x<=500-player.width){
-		player.x += player.moveSpeed;
-	}
-	if(!player.animating && !player.isAirborne){
-		startAnimation();
-	}
-}
+
 
 function moveDown()
 {

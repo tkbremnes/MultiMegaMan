@@ -52,6 +52,8 @@ function Player(startx, starty, color){
 	this.x = startx;
 	this.y = starty;
 
+	this.shadowY = starty;
+
 	this.startingHealth = 10;
 	this.health = this.startingHealth;
 
@@ -155,6 +157,7 @@ Player.prototype.hit = function(damage){
 
 Player.prototype.destroy = function(){
 	// trigger animation
+
 	// schedule respawn
 	destroyPlayer(this);
 }
