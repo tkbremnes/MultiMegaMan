@@ -3,7 +3,6 @@ var ctx;
 var gravity = 5;
 var player;
 
-
 var players = [];
 var map;
 function init()
@@ -19,6 +18,10 @@ function init()
 
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
+
+	setTimeout(function(){
+		powerups.push(new PowerUpDamage(64,49));
+	}, 500);
 }
 
 
@@ -35,8 +38,9 @@ function draw()
 {
 	refreshScreen();
 	drawMap();
-	drawCharacters();
+	drawPlayers();
 	drawProjectiles();
+	drawPowerups();
 	drawFps();
 }
 
@@ -51,31 +55,6 @@ function update(){
 function refreshScreen(){
 	ctx.fillStyle = map.bgColor;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
-
-
-var tempint = 10;
-
-
-var tempXdir = 1;
-var tempYdir = 1;
-
-function drawCharacters(){
-	for(var i=0; i<players.length; i++){
-		var p = players[i];
-		
-		ctx.drawImage(
-			p.getSprite(),
-			p.getSpritePosition(),
-			0,
-			p.width,
-			p.height,
-			p.x,
-			p.y,
-			p.width,
-			p.height
-		);
-	}
 }
 
 
@@ -120,15 +99,23 @@ function isStandingOnGround(p)
 
 function collisionDetector()
 {
-	// checks for projectile hits
-	projectiles.forEach(function(bullet){
-		players.forEach(function(p){
+	players.forEach(function(p){
+		// checks for projectile hits
+		projectiles.forEach(function(bullet){
 			if(collides(bullet, p)){
-				p.hit(2);
+				p.hit(player.weapon.damage);
 				bullet.destroy();
 				updateHeathBars();
 			}
 		});
+
+		// checks for power up pickups
+		powerups.forEach(function(powerup){
+			if(collides(powerup, p)){
+				powerup.applyEffect(p);
+				destroyPowerUp(powerup);
+			}
+		})
 	});
 }
 
@@ -304,7 +291,7 @@ function fire(){
 		player.shoot();
 
 		// Create projectile	
-		projectiles.push(new Projectile(player, 0, 1));
+		projectiles.push(new Projectile(player, player.weapon));
 	}
 }
 
@@ -337,16 +324,6 @@ function drawProjectiles(){
 function updateHeathBars(){
 	//TODO
 	$('#temphealth').text(players[1].health);
-}
-
-function destroyProjectile(proj){
-	proj.active = false;
-	
-	projectiles = projectiles.filter(function(p){
-		if(p.active){
-			return p;
-		}
-	});
 }
 
 

@@ -52,7 +52,7 @@ function Player(startx, starty, color){
 	this.x = startx;
 	this.y = starty;
 
-	this.shadowY = starty;
+	this.fireRate = 0;
 
 	this.startingHealth = 10;
 	this.health = this.startingHealth;
@@ -72,6 +72,30 @@ Player.prototype.update = function(){
 		this.width = 0;
 	}
 }
+
+//---------------
+// Draw function
+//---------------
+function drawPlayers(){
+	for(var i=0; i<players.length; i++){
+		var p = players[i];
+		
+		ctx.drawImage(
+			p.getSprite(),
+			p.getSpritePosition(),
+			0,
+			p.width,
+			p.height,
+			p.x,
+			p.y,
+			p.width,
+			p.height
+		);
+	}
+}
+
+
+
 
 var flickerTimer = 0;
 Player.prototype.getSprite = function(){
@@ -134,9 +158,6 @@ Player.prototype.getSpritePosition = function(){
 	}
 }
 
-Player.prototype.fireWeapon = function(){
-
-}
 
 
 var damageTimeout;

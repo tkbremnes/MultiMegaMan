@@ -1,4 +1,4 @@
-function Projectile(p, w, ispeed) {
+function Projectile(p, weapon) {
 	this.active = true;
 
 	this.player = player;
@@ -14,7 +14,7 @@ function Projectile(p, w, ispeed) {
 
 	this.moveSpeed = 5;
 
-	this.damage = 2;
+	this.damage = weapon.damage;
 
 	this.penetratesWalls = false;
 
@@ -28,7 +28,7 @@ function Projectile(p, w, ispeed) {
 	}
 	this.vecY = 0;
 
-	this.speed = ispeed;
+	this.speed = weapon.speed;
 
 	this.travelLength = 100;
 }
@@ -59,4 +59,15 @@ Projectile.prototype.update = function(){
 Projectile.prototype.destroy = function(){
 	destroyProjectile(this);
 	player.fireRate--;
+}
+
+
+function destroyProjectile(proj){
+	proj.active = false;
+	
+	projectiles = projectiles.filter(function(p){
+		if(p.active){
+			return p;
+		}
+	});
 }
