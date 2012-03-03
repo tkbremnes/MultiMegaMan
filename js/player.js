@@ -15,6 +15,9 @@ function Player(startx, starty, color){
 	this.walkLeftSpriteImage = new Image();
 	this.jumpRightSpriteImage = new Image();
 	this.jumpLeftSpriteImage = new Image();
+	this.damageRightSpriteImage = new Image();
+	this.damageLeftSpriteImage = new Image();
+	this.blankSprite = new Image();
 
 	this.tempWalkRightShootingSpriteImage = new Image();
 	this.tempWalkLeftShootingSpriteImage = new Image();
@@ -25,6 +28,11 @@ function Player(startx, starty, color){
 	this.walkLeftSpriteImage.src = '../img/walkLeft.gif';
 	this.jumpRightSpriteImage.src = '../img/jumpRight.gif';
 	this.jumpLeftSpriteImage.src = '../img/jumpLeft.gif';
+	
+	this.damageRightSpriteImage.src = '../img/damageRight.gif';
+	this.damageLeftSpriteImage.src = '../img/damageLeft.gif';
+
+	this.blankSprite.src = '../img/blank.gif';
 
 	this.animCycle = 0;
 	this.animating = false;
@@ -34,6 +42,7 @@ function Player(startx, starty, color){
 	this.isAirborne = false;
 	this.isShooting = false;
 	this.jumpHeight = 50;
+	this.isHit = false;
 
 	this.moveSpeed = 2;
 
@@ -62,8 +71,19 @@ Player.prototype.update = function(){
 	}
 }
 
+var flickerTimer = 0;
 Player.prototype.getSprite = function(){
 	if(this.walksRight){
+		if(this.isHit){
+			if(flickerTimer==1){
+				flickerTimer=0;
+				return this.damageRightSpriteImage;
+			}
+			else{
+				flickerTimer+=1;
+				return this.blankSprite;
+			}
+		}
 		if(this.isAirborne){
 			if(this.isShooting){
 				// TODO
@@ -80,6 +100,9 @@ Player.prototype.getSprite = function(){
 		return this.walkRightSpriteImage;
 	}
 	else {
+		if(this.isHit){
+			return this.damageLeftSpriteImage;
+		}
 		if(this.isAirborne){
 			if(this.isShooting){
 				// TODO
@@ -113,10 +136,20 @@ Player.prototype.fireWeapon = function(){
 
 }
 
+
+var damageTimeout;
 Player.prototype.hit = function(damage){
-	this.health -= damage;
-	if(this.health<=0){
-		this.destroy();
+	if(!this.isHit){
+		this.isHit = true;
+		this.health -= damage;
+		if(this.health<=0){
+			this.destroy();
+		}
+
+		window.clearTimeout(damageTimeout);
+		damageTimeout = setTimeout(function(){
+			players[1].isHit = false;
+		}, 400);
 	}
 }
 
@@ -134,11 +167,11 @@ Player.prototype.respawn = function(x, y){
 	this.update();
 }
 
-var stopshooting;
+var stopShootingTimeout;
 Player.prototype.shoot = function(){
-	window.clearTimeout(stopshooting);
+	window.clearTimeout(stopShootingTimeout);
 	this.isShooting = true;
-	stopshooting = setTimeout(function(){
+	stopShootingTimeout = setTimeout(function(){
 		player.isShooting = false;
 	}, 400);
 }
