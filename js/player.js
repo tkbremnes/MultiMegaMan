@@ -1,4 +1,9 @@
 function Player(startx, starty){
+	this.active = true;
+
+	this.hitboxWidth = 24;
+	this.hitboxHeight = 24;
+
 	this.height = 24; // Height in pixels
 	this.width = 24;  // Width in pixels
 
@@ -36,9 +41,23 @@ function Player(startx, starty){
 	this.x = startx;
 	this.y = starty;
 
-	this.health = 10;
+	this.startingHealth = 10;
+	this.health = this.startingHealth;
 
 	this.weapon = 'dummy';
+}
+
+Player.prototype.update = function(){
+	if(this.active){
+		this.height = this.hitboxHeight;
+		this.width = this.hitboxWidth;
+	}
+	else{
+		this.x = 0;
+		this.y = 0;
+		this.height = 0;
+		this.width = 0;
+	}
 }
 
 Player.prototype.getSprite = function(){
@@ -93,5 +112,22 @@ Player.prototype.fireWeapon = function(){
 }
 
 Player.prototype.hit = function(damage){
-	console.log("player has been hit");
+	this.health -= damage;
+	if(this.health<=0){
+		this.destroy();
+	}
+}
+
+Player.prototype.destroy = function(){
+	// trigger animation
+	// schedule respawn
+	destroyPlayer(this);
+}
+
+Player.prototype.respawn = function(x, y){
+	this.active = true;
+	this.health = this.startingHealth;
+	this.x = x;
+	this.y = y;
+	this.update();
 }
