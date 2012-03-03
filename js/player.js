@@ -133,3 +133,12 @@ Player.prototype.respawn = function(x, y){
 	this.y = y;
 	this.update();
 }
+
+var stopshooting;
+Player.prototype.shoot = function(){
+	window.clearTimeout(stopshooting);
+	this.isShooting = true;
+	stopshooting = setTimeout(function(){
+		player.isShooting = false;
+	}, 400);
+}

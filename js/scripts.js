@@ -94,6 +94,12 @@ function drawCharacters(){
 	}
 }
 
+
+function drawFps(){
+//TODO	
+}
+
+
 var fallspeed = 0;
 function doGravity() {
 	players.forEach(function(p){
@@ -146,10 +152,6 @@ function collides(a, b) {
          a.y + a.height > b.y;
 }
 
-
-function drawFps(){
-	
-}
 
 function moveLeft()
 {
@@ -301,7 +303,7 @@ var destoyProjectileInterval;
 function fire(){
 
 	window.clearInterval(projectileInverval);
-	player.isShooting = true;
+	player.shoot();
 
 	// Create projectile
 	projectiles.push(new Projectile(player, 0, 1));
