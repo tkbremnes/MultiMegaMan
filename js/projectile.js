@@ -4,7 +4,7 @@ function Projectile(p, w, ispeed) {
 	this.player = player;
 
 	this.x = player.x;
-	this.y = player.y + 7;
+	this.y = player.y + 10;
 
 	this.startX = this.x;
 	this.startY = this.y;

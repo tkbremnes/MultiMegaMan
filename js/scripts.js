@@ -3,23 +3,9 @@ var ctx;
 var gravity = 5;
 var player;
 
-wall = {
-	x: 0,
-	y: 100,
-	width: 400,
-	height: 10,
-	isHazard: false
-};
-
-enemy = {
-	// x: 20,
-	// y: 80,
-	// width: 10,
-	// height: 20,
-	// isHazard: true
-};
 
 var players = [];
+var map;
 function init()
 {
 	player = new Player(20, 50, 'blue');
@@ -28,6 +14,8 @@ function init()
 
 	initCanvas();
 	initKeyListener();
+
+	map = new Map();
 
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
@@ -46,9 +34,8 @@ function initCanvas()
 function draw()
 {
 	refreshScreen();
-	drawEnvironment();
+	drawMap();
 	drawCharacters();
-	drawEnemies();
 	drawProjectiles();
 	drawFps();
 }
@@ -62,16 +49,13 @@ function update(){
 }
 
 function refreshScreen(){
-	ctx.fillStyle = 'rgb(255, 255, 255)';
+	ctx.fillStyle = map.bgColor;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
 
 var tempint = 10;
-function drawEnvironment(){
-	ctx.fillStyle = 'rgb(0, 0, 0)';
-	ctx.fillRect(wall.x, wall.y, wall.width, wall.height);
-}
+
 
 var tempXdir = 1;
 var tempYdir = 1;
@@ -211,12 +195,6 @@ function moveDown()
 	
 }
 
-function drawEnemies()
-{
-	ctx.fillStyle = 'rgb(255, 0, 0)';
-	ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-}
-
 function playerDie()
 {
 	console.log("you were maimed");
@@ -310,10 +288,29 @@ function fire(){
 }
 
 function drawProjectiles(){
-	ctx.fillStyle = 'rgb(255,0,0)';
+
+	// arc(x, y, radius, startAngle, endAngle, anticlockwise)
+
+
 	projectiles.forEach(function(p){
-		ctx.fillRect(p.x, p.y, p.width, p.height);
+		ctx.fillStyle = 'rgb(0,0,0)';
+		ctx.beginPath();
+		ctx.arc(p.x, p.y, 3, 0, Math.PI*2, true); 
+		ctx.closePath();
+		ctx.fill();
+
+		ctx.fillStyle = '#eee9e9';
+		ctx.beginPath();
+		ctx.arc(p.x, p.y, 2, 0, Math.PI*2, true); 
+		ctx.closePath();
+		ctx.fill();
 	});
+
+
+	// ctx.fillStyle = 'rgb(255,0,0)';
+	// projectiles.forEach(function(p){
+	// 	ctx.fillRect(p.x, p.y, p.width, p.height);
+	// });
 }
 
 function updateHeathBars(){

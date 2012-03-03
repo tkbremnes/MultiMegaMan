@@ -1,3 +1,3 @@
-function Weapon(){
-	
+function WeaponMegaBlaster(){
+
 }
