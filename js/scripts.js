@@ -106,14 +106,21 @@ function doGravity() {
 
 function collisionDetector()
 {
-	if(enemy.isHazard && ((enemy.x + enemy.width == player.x) || (enemy.x== player.x+player.width)))
-	{
-		playerDie();
+	// checks for projectile hits
+	for(var i=0; i<players.length; i++){
+		// if(projectiles[0].x == )
 	}
-	if(player.x == enemy.x && player.y+player.height == enemy.y){
-		console.log("killing enemy")
-		enemyDie(enemy);
-	}
+
+	// BELOW: OLD CODE
+	//
+	// if(enemy.isHazard && ((enemy.x + enemy.width == player.x) || (enemy.x== player.x+player.width)))
+	// {
+	// 	playerDie();
+	// }
+	// if(player.x == enemy.x && player.y+player.height == enemy.y){
+	// 	console.log("killing enemy")
+	// 	enemyDie(enemy);
+	// }
 }
 
 function drawFps(){
@@ -123,7 +130,9 @@ function drawFps(){
 function moveLeft()
 {
 	player.walksRight = false;
-	player.x -= player.moveSpeed;
+	if(player.x>=0){
+		player.x -= player.moveSpeed;
+	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}
@@ -175,7 +184,11 @@ function enablePlayerGravity(){
 function moveRight()
 {
 	player.walksRight = true;
-	player.x += player.moveSpeed;
+	
+	// TODO
+	if(player.x<=500-player.width){
+		player.x += player.moveSpeed;
+	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}

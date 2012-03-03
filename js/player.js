@@ -41,10 +41,6 @@ function Player(startx, starty){
 	this.weapon = 'dummy';
 }
 
-Player.prototype.loadResources = function(){
-	
-}
-
 Player.prototype.getSprite = function(){
 	if(this.walksRight){
 		if(this.isAirborne){
