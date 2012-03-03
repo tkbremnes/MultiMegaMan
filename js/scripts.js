@@ -24,7 +24,7 @@ function init()
 {
 	player = new Player(20, 50);
 	players[0] = player;
-	players[1] = new Player(60, 50);
+	players[1] = new Player(200, 50);
 
 	initCanvas();
 	initKeyListener();
@@ -98,7 +98,7 @@ var fallspeed = 0;
 function doGravity() {
 	players.forEach(function(p){
 		if(p.gravity){
-			if(!isStandingOnGround()){
+			if(!isStandingOnGround(p)){
 				p.isAirborne = true;
 				fallspeed += gravity;
 				p.y += 1;
@@ -148,10 +148,10 @@ function moveLeft()
 	}
 }
 
-function isStandingOnGround()
+function isStandingOnGround(p)
 {
-	if(player.y+player.height == wall.y){
-		if(player.x <= wall.width){
+	if(p.y+p.height == wall.y){
+		if(p.x <= wall.width){
 			return true;
 		}
 	}
@@ -343,7 +343,7 @@ function respawnCountdown(p, s){
 	//-----
 
 	window.clearInterval(cnt);
-	if(s>=0){
+	if(s>0){
 		cnt = setInterval(function(){
 			respawnCountdown(p, s-1);
 		}, 1000);
@@ -354,5 +354,5 @@ function respawnCountdown(p, s){
 }
 
 function respawnPlayer(p){
-	p.respawn(60,50);
+	p.respawn(200,50);
 }
