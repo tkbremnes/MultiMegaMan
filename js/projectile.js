@@ -33,7 +33,14 @@ function Projectile(p, w, ispeed) {
 Projectile.prototype.update = function(){
 	this.x += this.vecX;
 	this.x += this.vecY;
-	if(this.x >= this.startX+this.travelLength){
-		destroyProjectile(this);
+	if(this.vexX>0){
+		if(this.x >= this.startX+this.travelLength){
+			destroyProjectile(this);
+		}
+	}
+	else{
+		if(this.x <= this.startX-this.travelLength){
+			destroyProjectile(this);
+		}
 	}
 }

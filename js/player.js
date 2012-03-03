@@ -1,5 +1,7 @@
-function Player(startx, starty){
+function Player(startx, starty, color){
 	this.active = true;
+
+	this.color = color;
 
 	this.hitboxWidth = 24;
 	this.hitboxHeight = 24;

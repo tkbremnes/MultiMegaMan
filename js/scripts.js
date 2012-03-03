@@ -22,9 +22,9 @@ enemy = {
 var players = [];
 function init()
 {
-	player = new Player(20, 50);
-	players[0] = player;
-	players[1] = new Player(200, 50);
+	player = new Player(20, 50, 'blue');
+	players.push(player);
+	players.push(new Player(200, 50, 'green'));
 
 	initCanvas();
 	initKeyListener();
@@ -110,6 +110,27 @@ function doGravity() {
 	});
 }
 
+function isStandingOnGround(p)
+{
+	if(p!==undefined){
+		if(p.y+p.height == wall.y){
+			if(p.x <= wall.width){
+				return true;
+			}
+		}
+		return false;
+	}
+	else{ // FILTHY DIRTY HACK!
+		if(player.y+player.height == wall.y){
+			if(player.x <= wall.width){
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+
 function collisionDetector()
 {
 	// checks for projectile hits
@@ -148,22 +169,12 @@ function moveLeft()
 	}
 }
 
-function isStandingOnGround(p)
-{
-	if(p.y+p.height == wall.y){
-		if(p.x <= wall.width){
-			return true;
-		}
-	}
-	return false;
-}
-
 var jumpInterval;
 var currentJumpHeight;
 function jump(){
 	if(!player.isAirborne){
 		player.isAirborne = true;
-		disablePlayerGravity();
+		player.gravity = false;
 		currentJumpHeight = 0;
 		
 		if(isStandingOnGround()) {
@@ -181,10 +192,6 @@ function moveUp()
 		currentJumpHeight = 0;
 		enablePlayerGravity();
 	}
-}
-
-function disablePlayerGravity(){
-	player.gravity = false;
 }
 
 function enablePlayerGravity(){
