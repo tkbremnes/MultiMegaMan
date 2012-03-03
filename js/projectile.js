@@ -16,6 +16,8 @@ function Projectile(p, w, ispeed) {
 
 	this.damage = 2;
 
+	this.penetratesWalls = false;
+
 	if(player.walksRight){
 		this.vecX = this.moveSpeed;
 		this.x += player.width;
@@ -32,15 +34,29 @@ function Projectile(p, w, ispeed) {
 }
 Projectile.prototype.update = function(){
 	this.x += this.vecX;
-	this.x += this.vecY;
-	if(this.vexX>0){
+	this.y += this.vecY;
+
+	if(this.x>=500 || this.x<=0){
+		this.destroy();
+	}
+
+	if(!this.penetratesWalls && wallSideCollisionDetector(this)){
+		this.destroy();
+	}
+
+	if(this.vecX>0){
 		if(this.x >= this.startX+this.travelLength){
-			destroyProjectile(this);
+			this.destroy();
 		}
 	}
 	else{
 		if(this.x <= this.startX-this.travelLength){
-			destroyProjectile(this);
+			this.destroy();
 		}
 	}
+}
+
+Projectile.prototype.destroy = function(){
+	destroyProjectile(this);
+	player.fireRate--;
 }

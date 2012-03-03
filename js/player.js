@@ -57,7 +57,7 @@ function Player(startx, starty, color){
 	this.startingHealth = 10;
 	this.health = this.startingHealth;
 
-	this.weapon = 'dummy';
+	this.weapon = new WeaponMegaBlaster();
 }
 
 Player.prototype.update = function(){
@@ -171,7 +171,16 @@ Player.prototype.respawn = function(x, y){
 }
 
 var stopShootingTimeout;
+var weaponCooldownTimeout;
+
 Player.prototype.shoot = function(){
+	window.clearTimeout(weaponCooldownTimeout);
+	this.weapon.isReady = false;
+	weaponCooldownTimeout = setTimeout(function(){
+		player.weapon.isReady = true;
+	}, this.weapon.cooldown);
+
+
 	window.clearTimeout(stopShootingTimeout);
 	this.isShooting = true;
 	stopShootingTimeout = setTimeout(function(){

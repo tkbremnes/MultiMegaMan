@@ -125,7 +125,7 @@ function collisionDetector()
 		players.forEach(function(p){
 			if(collides(bullet, p)){
 				p.hit(2);
-				destroyProjectile(bullet);
+				bullet.destroy();
 				updateHeathBars();
 			}
 		});
@@ -300,10 +300,12 @@ var destoyProjectileInterval;
 function fire(){
 
 	window.clearInterval(projectileInverval);
-	player.shoot();
+	if(player.weapon.isReady){
+		player.shoot();
 
-	// Create projectile
-	projectiles.push(new Projectile(player, 0, 1));
+		// Create projectile	
+		projectiles.push(new Projectile(player, 0, 1));
+	}
 }
 
 function drawProjectiles(){

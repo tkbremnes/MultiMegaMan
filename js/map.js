@@ -68,7 +68,7 @@ function mapInit(){
 		}
 	}
 
-	console.log(mapGrid[0][0]);
+	// console.log(mapGrid[0][0]);
 }
 
 function wallCollisionDetector(p){
@@ -98,7 +98,7 @@ function wallSideCollisionDetector(p){
 	if(p.walksRight){ // Ignore left
 		for(var i=col; i<numberOfCellsHorisontal; i++){
 			if(collides(p, mapGrid[i][j])){
-				if(!mapGrid[i][j].isBelow(p)){
+				if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
 					return true;
 				}
 			}
