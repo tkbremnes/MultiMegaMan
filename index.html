@@ -52,6 +52,16 @@
   			console.log(data);
   			initPlayer(data);
   		});
+  		socket.on('fire_projectile', function(){
+  			projectiles.push(new Projectile(players[1]));
+  		});
+  		socket.on('respawn_player', function(){
+  			// players[1].respawn(300,50);
+  			respawnPlayer(players[1]);
+  		});
+  		socket.on('kill_player', function(){
+
+  		});
 	</script>
 
 

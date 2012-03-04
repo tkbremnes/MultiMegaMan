@@ -310,14 +310,22 @@ var projectileInverval;
 var destoyProjectileInterval;
 
 function fire(){
-	socket.emit('shoot', {p: player.pid});
-
 	window.clearInterval(projectileInverval);
 	if(player.weapon.isReady){
 		player.shoot();
 
-		// Create projectile	
-		projectiles.push(new Projectile(player, player.weapon));
+		// Create projectile
+		var proj = new Projectile(player);
+		projectiles.push(proj);
+
+		socket.emit('shoot', {
+			pid: player.pid,
+      		startPosX: proj.startPosX, 
+      		startPosY: proj.startPosY, 
+      		velocity: proj.moveSpeed, 
+      		travelLength: proj.travelDistance, 
+      		damage: proj.damage
+		});
 	}
 }
 
@@ -356,7 +364,7 @@ function updateHeathBars(){
 function destroyPlayer(p){
 	p.active = false;
 	p.update();
-	respawnCountdown(p, 3);
+	// respawnCountdown(p, 3);
 }
 
 var cnt;

@@ -50,7 +50,7 @@ function Player(startx, starty, color, playerid){
 
 	this.isAirborne = false;
 	this.isShooting = false;
-	this.jumpHeight = 50;
+	this.jumpHeight = 55;
 	this.isHit = false;
 
 	this.moveSpeed = 2;

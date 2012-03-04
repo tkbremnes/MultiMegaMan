@@ -1,10 +1,11 @@
-function Projectile(p, weapon) {
+function Projectile(p) {
+	console.log("creating projectile");
 	this.active = true;
 
-	this.player = player;
+	this.player = p;
 
-	this.x = player.x;
-	this.y = player.y + (player.height/2);
+	this.x = this.player.x;
+	this.y = this.player.y + (this.player.height/2);
 
 	this.startX = this.x;
 	this.startY = this.y;
@@ -12,15 +13,15 @@ function Projectile(p, weapon) {
 	this.width = 5;
 	this.height = 5;
 
-	this.moveSpeed = weapon.projectileSpeed;
+	this.moveSpeed = this.player.weapon.projectileSpeed;
 
-	this.damage = weapon.damage;
+	this.damage = this.player.weapon.damage;
 
 	this.penetratesWalls = false;
 
-	if(player.walksRight){
+	if(this.player.walksRight){
 		this.vecX = this.moveSpeed;
-		this.x += player.width;
+		this.x += this.player.width;
 	}
 	else{
 		this.vecX = -this.moveSpeed;
@@ -28,9 +29,9 @@ function Projectile(p, weapon) {
 	}
 	this.vecY = 0;
 
-	this.speed = weapon.speed;
+	this.speed = this.player.weapon.speed;
 
-	this.travelDistance = weapon.projectileTravelDistance;
+	this.travelDistance = this.player.weapon.projectileTravelDistance;
 }
 Projectile.prototype.update = function(){
 	this.x += this.vecX;
@@ -58,7 +59,7 @@ Projectile.prototype.update = function(){
 
 Projectile.prototype.destroy = function(){
 	destroyProjectile(this);
-	player.fireRate--;
+	this.player.fireRate--;
 }
 
 
