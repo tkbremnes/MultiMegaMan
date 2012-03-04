@@ -78,7 +78,7 @@ io.sockets.on('connection', function (socket)
   });
 
   socket.on('update_player_position', function(data){
-    // console.log(data);
+    console.log(data);
     players[data.pid].xpos = data.xpos;
     players[data.pid].ypos = data.ypos;
     socket.broadcast.emit('player_pos', {pid: data.pid, xpos: data.xpos, ypos: data.ypos});

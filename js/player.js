@@ -260,6 +260,8 @@ Player.prototype.shoot = function(){
 
 function updatePlayer(p, newx, newy)
 {
-	p.x = newx;
-	p.y = newy;
+	console.log("updating");
+	var pl = players[p];
+	pl.x = newx;
+	pl.y = newy;
 }

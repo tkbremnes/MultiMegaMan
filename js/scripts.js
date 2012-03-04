@@ -7,13 +7,14 @@ var players = [];
 var map;
 function init()
 {
+	
+	socket.emit('client_ready', {});
 
 	initCanvas();
 	initKeyListener();
 
 	map = new Map();
 
-	socket.emit('client_ready', {});
 
 	// player = new Player(20, 50, 'blue', 0);
 	// players.push(player);
@@ -42,6 +43,7 @@ function initOpponent(data){
 }
 
 function updatePlayerPosition(){
+	console.log("sending position");
 	socket.emit('update_player_position', {
 		pid: player.pid,
 		xpos: player.x,

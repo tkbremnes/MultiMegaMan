@@ -46,6 +46,7 @@
   		var socket = io.connect('http://localhost');
   		
   		socket.on('player_pos', function (data) {
+  			console.log("updating");
     		updatePlayer(data.pid, data.xpos, data.ypos);
   		});
   		socket.on('player_start', function(data){
