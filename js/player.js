@@ -1,4 +1,5 @@
-function Player(startx, starty, color){
+function Player(startx, starty, color, playerid){
+	this.pid = playerid;
 	this.active = true;
 
 	this.color = color;
@@ -113,7 +114,7 @@ function playIntroAnimation(p){
 	console.log("playing animation");
 	if(!p.playIntro){
 		p.playIntro = true;
-		introAnimInterval = setInterval(function(){
+		i<ntroAnimInterval = setInterval(function(){
 			playIntroAnimation(p);
 		}, 400);
 	}
@@ -227,6 +228,7 @@ Player.prototype.destroy = function(){
 	// trigger animation
 
 	// schedule respawn
+	socket.emit('player_killed', {pid: this.pid, action: 0});
 	destroyPlayer(this);
 }
 
@@ -254,4 +256,10 @@ Player.prototype.shoot = function(){
 	stopShootingTimeout = setTimeout(function(){
 		player.isShooting = false;
 	}, 400);
+}
+
+function updatePlayer(p, newx, newy)
+{
+	p.x = newx;
+	p.y = newy;
 }

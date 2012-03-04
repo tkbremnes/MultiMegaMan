@@ -13,10 +13,11 @@ function init()
 
 	map = new Map();
 
+	socket.emit('client_ready', {});
 
-	player = new Player(20, 50, 'blue');
-	players.push(player);
-	players.push(new Player(200, 50, 'green'));
+	// player = new Player(20, 50, 'blue', 0);
+	// players.push(player);
+	// players.push(new Player(200, 50, 'green', 1));
 
 	// players.forEach(function(p){
 	// 	playIntroAnimation(p);
@@ -28,8 +29,22 @@ function init()
 	setTimeout(function(){
 		powerups.push(new PowerUpProjectileSpeed(480,49));
 	}, 500);
+
 }
 
+function initPlayer(data){
+	player = new Player(data.xpos, data.ypos, 'blue', data.pid);
+	players.push(player);
+	players.push(new Player(200, 50, 'green', 1));
+}
+
+function updatePlayerPosition(){
+	socket.emit('update_player_position', {
+		pid: player.pid,
+		xpos: player.x,
+		ypos: player.y
+	});
+}
 
 
 function initCanvas()
@@ -149,6 +164,8 @@ function moveLeft()
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}
+
+	updatePlayerPosition();
 }
 
 function moveRight()
@@ -168,6 +185,8 @@ function moveRight()
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}
+
+	updatePlayerPosition();
 }
 
 var jumpInterval;
@@ -291,6 +310,7 @@ var projectileInverval;
 var destoyProjectileInterval;
 
 function fire(){
+	socket.emit('shoot', {p: player.pid});
 
 	window.clearInterval(projectileInverval);
 	if(player.weapon.isReady){
