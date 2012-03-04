@@ -41,6 +41,12 @@ io.sockets.on('connection', function (socket)
   socket.on('client_ready', function(data){
     var pid = createPid();
     socket.emit('player_start', {pid: pid, xpos: players[pid].xpos, ypos: players[pid].ypos});
+
+    players.forEach(function(p){
+      if(p.pid!=pid){
+        socket.emit('init_opponent', {pid: p.pid, xpos: p.xpos, ypos: p.ypos});
+      }
+    });
   });
 
   socket.on('shoot', function(data){
