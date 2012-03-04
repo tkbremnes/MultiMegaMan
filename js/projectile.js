@@ -5,7 +5,7 @@ function Projectile(p) {
 	this.player = p;
 
 	this.x = this.player.x;
-	this.y = this.player.y + (this.player.height/2);
+	this.y = this.player.y + (this.player.height/2)+3;
 
 	this.startX = this.x;
 	this.startY = this.y;

@@ -34,8 +34,12 @@ function init()
 
 function initPlayer(data){
 	player = new Player(data.xpos, data.ypos, 'blue', data.pid);
-	players.push(player);
+	players[data.pid] = player;
 	players.push(new Player(200, 50, 'green', 1));
+}
+
+function initOpponent(data){
+
 }
 
 function updatePlayerPosition(){

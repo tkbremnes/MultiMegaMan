@@ -40,9 +40,7 @@ io.sockets.on('connection', function (socket)
 {  
   socket.on('client_ready', function(data){
     var pid = createPid();
-    var startPos = getStartPos(pid);
-    // var p = new Player(pid, startPos[0], startPos[1]);
-    socket.emit('player_start', {pid: pid, xpos: startPos[0], ypos: startPos[1]});
+    socket.emit('player_start', {pid: pid, xpos: players[pid].xpos, ypos: players[pid].ypos});
   });
 
   socket.on('shoot', function(data){
@@ -75,6 +73,8 @@ io.sockets.on('connection', function (socket)
 
   socket.on('update_player_position', function(data){
     // console.log(data);
+    players[data.pid].xpos = data.xpos;
+    players[data.pid].ypos = data.ypos;
     socket.broadcast.emit('player_pos', {pid: data.pid, xpos: data.xpos, ypos: data.ypos});
   });
 
@@ -83,6 +83,10 @@ io.sockets.on('connection', function (socket)
 // Game data
 var respawnTime = 3000;
 var pids = [];
+var players = [];
+initPlayers();
+
+
 function createPid(){
   var newPid = pids.length;
   pids.push(newPid);
@@ -95,10 +99,12 @@ function getStartPos(pid){
       return [20,50];
     case 1:
       return [200,50];
+    case 2:
+      return [400, 50];
   }
 }
 
-var players = [];
+
 function addPlayer(){
 
 }
@@ -108,6 +114,33 @@ function updatePlayer(id, x, y, h){
   p.xpos = x;
   p.ypos = y;
   p.health = h;
+}
+
+function initPlayers(){
+  players[0] = {
+    pid: 0,
+    xpos: 20,
+    ypos: 50,
+    health: 10
+  };
+  players[1] = {
+    pid: 1,
+    xpos: 200,
+    ypos: 50,
+    health: 10
+  };
+  players[2] = {
+    pid: 2,
+    xpos: 300,
+    ypos: 20,
+    health: 10
+  };
+  players[3] = {
+    pid: 3,
+    xpos: 400,
+    ypos: 50,
+    health: 10
+  };
 }
 
 function Player(id, x, y){
