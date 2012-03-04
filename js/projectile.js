@@ -4,7 +4,7 @@ function Projectile(p, weapon) {
 	this.player = player;
 
 	this.x = player.x;
-	this.y = player.y + 10;
+	this.y = player.y + (player.height/2);
 
 	this.startX = this.x;
 	this.startY = this.y;

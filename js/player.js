@@ -21,6 +21,11 @@ function Player(startx, starty, color){
 	this.damageRightSpriteImage.src = '../img/damageRight.gif';
 	this.damageLeftSpriteImage.src = '../img/damageLeft.gif';
 
+	this.introLeftAnimationSpriteImage = new Image();
+	this.introRightAnimationSpriteImage = new Image();
+	this.introLeftAnimationSpriteImage.src = '../img/introLeft.gif';
+	this.introRightAnimationSpriteImage.src = '../img/introRight.gif';
+
 	this.jumpRightSpriteImage = new Image();
 	this.jumpLeftSpriteImage = new Image();
 	this.jumpRightSpriteImage.src = '../img/jumpRight.gif';
@@ -36,10 +41,8 @@ function Player(startx, starty, color){
 	this.walkRightShootingSpriteImage.src = '../img/walkShootRight.gif';
 	this.walkLeftShootingSpriteImage.src = '../img/walkShootLeft.gif';
 
-	
-
-
 	this.animCycle = 0;
+	this.introAnimCycle = 0;
 	this.animating = false;
 
 	this.resourcesLoaded = false;
@@ -63,7 +66,13 @@ function Player(startx, starty, color){
 	this.health = this.startingHealth;
 
 	this.weapon = new WeaponMegaBlaster();
+
+	this.playIntro = false;
+	this.playDeath = false;
+
+
 }
+
 
 Player.prototype.update = function(){
 	if(this.active){
@@ -99,11 +108,42 @@ function drawPlayers(){
 	}
 }
 
+var introAnimInterval;
+function playIntroAnimation(p){
+	console.log("playing animation");
+	if(!p.playIntro){
+		p.playIntro = true;
+		introAnimInterval = setInterval(function(){
+			playIntroAnimation(p);
+		}, 400);
+	}
+	if(p.playIntro){
+		if(p.introAnimCycle<4){
+			p.introAnimCycle += 1;
+		}
+		else{
+			window.clearInterval(introAnimInterval);
+			p.playIntro = false;
+		}
+	}
+}
 
 
 
 var flickerTimer = 0;
 Player.prototype.getSprite = function(){
+	if(this.playIntro){
+		if(this.walksRight){
+			return this.introRightAnimationSpriteImage;
+		}
+		else{
+			return this.introLeftAnimationSpriteImage;
+		}
+	}
+	if(this.playDeath){
+		//TODO
+	}
+
 	if(this.walksRight){
 		if(this.isHit){
 			if(flickerTimer==1){
@@ -146,6 +186,9 @@ Player.prototype.getSprite = function(){
 }
 
 Player.prototype.getSpritePosition = function(){
+	if(this.playIntro){
+		return this.width*this.introAnimCycle;
+	}
 	if(this.isAirborne){
 		if(this.isShooting){
 			return this.width*2;

@@ -7,14 +7,20 @@ var players = [];
 var map;
 function init()
 {
-	player = new Player(20, 50, 'blue');
-	players.push(player);
-	players.push(new Player(200, 50, 'green'));
 
 	initCanvas();
 	initKeyListener();
 
 	map = new Map();
+
+
+	player = new Player(20, 50, 'blue');
+	players.push(player);
+	players.push(new Player(200, 50, 'green'));
+
+	// players.forEach(function(p){
+	// 	playIntroAnimation(p);
+	// });
 
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
