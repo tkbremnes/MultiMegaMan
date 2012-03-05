@@ -50,7 +50,7 @@ function Player(startx, starty, color, playerid){
 
 	this.isAirborne = false;
 	this.isShooting = false;
-	this.jumpHeight = 55;
+	this.jumpHeight = 60;
 	this.isHit = false;
 
 	this.moveSpeed = 2;
@@ -71,7 +71,10 @@ function Player(startx, starty, color, playerid){
 	this.playIntro = false;
 	this.playDeath = false;
 
+	this.damageTimeout;
+	this.damagedPlayer;
 
+	this.flickerTimer = 0;
 }
 
 
@@ -131,7 +134,7 @@ function playIntroAnimation(p){
 
 
 
-var flickerTimer = 0;
+// var flickerTimer = 0;
 Player.prototype.getSprite = function(){
 	if(this.playIntro){
 		if(this.walksRight){
@@ -147,12 +150,12 @@ Player.prototype.getSprite = function(){
 
 	if(this.walksRight){
 		if(this.isHit){
-			if(flickerTimer==1){
-				flickerTimer=0;
+			if(this.flickerTimer==1){
+				this.flickerTimer=0;
 				return this.damageRightSpriteImage;
 			}
 			else{
-				flickerTimer+=1;
+				this.flickerTimer+=1;
 				return this.blankSprite;
 			}
 		}
@@ -208,8 +211,7 @@ Player.prototype.getSpritePosition = function(){
 
 
 // Todo: behold - the reason being hit by projectiles craps up the animation.
-var damageTimeout;
-var damagedPlayer;
+var damageStack = [];
 Player.prototype.hit = function(damage){
 	if(!this.isHit){
 		socket.emit('player_hit', {pid: this.pid, damage: damage});
@@ -218,10 +220,13 @@ Player.prototype.hit = function(damage){
 		// if(this.health<=0){
 		// 	this.destroy();
 		// }
-		damagedPlayer = players[this.pid];
-		window.clearTimeout(damageTimeout);
-		damageTimeout = setTimeout(function(){
-			damagedPlayer.isHit = false;
+		// this.damagedPlayer = players[this.pid];
+		damageStack.push(this.pid);
+		window.clearTimeout(this.damageTimeout);
+		
+		this.damageTimeout = setTimeout(function(){
+			players[damageStack[0]].isHit = false;
+			damageStack = damageStack.slice(1);
 		}, 1000);
 	}
 }

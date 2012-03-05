@@ -51,7 +51,7 @@ io.sockets.on('connection', function (socket)
   });
 
   socket.on('shoot', function(data){
-    console.log(data);
+    // console.log(data);
 
     socket.broadcast.emit('fire_projectile', {
       pid: data.pid,
@@ -80,7 +80,7 @@ io.sockets.on('connection', function (socket)
   });
 
   socket.on('player_killed', function(data){
-    console.log(data)
+    // console.log(data)
     socket.emit('kill_player', {pid: data.pid});
     socket.broadcast.emit('kill_player', {pid: data.pid});
 
@@ -93,7 +93,7 @@ io.sockets.on('connection', function (socket)
   });
 
   socket.on('update_player_position', function(data){
-    console.log(data);
+    // console.log(data);
     players[data.pid].xpos = data.xpos;
     players[data.pid].ypos = data.ypos;
     socket.broadcast.emit('player_pos', {pid: data.pid, xpos: data.xpos, ypos: data.ypos});
@@ -103,26 +103,19 @@ io.sockets.on('connection', function (socket)
 
 // Game data
 var respawnTime = 3000;
-var pids = [];
 var players = [];
 initPlayers();
 
-
+var multiplayerHack = 0;
 function createPid(){
-  var newPid = pids.length;
-  pids.push(newPid);
-  return newPid;
-}
-
-function getStartPos(pid){
-  switch(pid){
-    case 0:
-      return [20,50];
-    case 1:
-      return [200,50];
-    case 2:
-      return [400, 50];
+  var res = multiplayerHack;
+  if(multiplayerHack==3){
+    multiplayerHack = 0;
   }
+  else{
+    multiplayerHack++;
+  }
+  return res;
 }
 
 
@@ -158,7 +151,7 @@ function initPlayers(){
   };
   players[3] = {
     pid: 3,
-    xpos: 400,
+    xpos: 380,
     ypos: 50,
     health: 10
   };
