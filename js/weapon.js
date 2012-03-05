@@ -1,7 +1,7 @@
 function WeaponMegaBlaster(){
-	this.cooldown = 100; // cooldown in ms
+	this.cooldown = 600; // cooldown in ms
 	this.damage = 1;
-	this.projectileSpeed = 5;
+	this.projectileSpeed = 2;
 	this.fireRate = 1;
 	this.projectileTravelDistance = 100;
 

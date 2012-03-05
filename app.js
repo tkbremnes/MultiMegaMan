@@ -8,6 +8,7 @@ var sys = require("sys"),
 http.listen(1337, "localhost");
 
 function handler (request, response) {
+  console.log("incoming connection");
   var uri = url.parse(request.url).pathname;
   if(uri=='/'){
     uri = '/index.html'
@@ -52,8 +53,6 @@ io.sockets.on('connection', function (socket)
   socket.on('shoot', function(data){
     console.log(data);
 
-    socket.emit('fire_projectile', data);
-
     socket.broadcast.emit('fire_projectile', {
       pid: data.pid,
       startPosX: data.startPosX, 
@@ -62,6 +61,22 @@ io.sockets.on('connection', function (socket)
       travelLength: data.travelLength, 
       damage: data.damage
     });
+  });
+
+  socket.on('player_hit', function(data){
+    players[data.pid].health -= data.damage;
+    socket.broadcast.emit('player_hit', {pid: data.pid, damage: data.damage});
+    
+    if(players[data.pid].health<0){
+      socket.emit('kill_player', {pid: data.pid});
+      socket.broadcast.emit('kill_player', {pid: data.pid});
+
+      // Schedule respawn
+      setTimeout(function(){
+        socket.emit('respawn_player', {pid: data.pid});
+        socket.broadcast.emit('respawn_player', {pid: data.pid});
+      }, respawnTime);
+    }
   });
 
   socket.on('player_killed', function(data){

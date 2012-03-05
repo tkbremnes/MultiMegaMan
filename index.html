@@ -46,26 +46,27 @@
   		var socket = io.connect('http://localhost');
   		
   		socket.on('player_pos', function (data) {
-  			console.log("updating");
     		updatePlayer(data.pid, data.xpos, data.ypos);
   		});
   		socket.on('player_start', function(data){
-  			console.log(data);
   			initPlayer(data);
   		});
   		socket.on('init_opponent', function(data){
   			initOpponent(data);
   		});
-  		socket.on('fire_projectile', function(){
-  			projectiles.push(new Projectile(players[1]));
+  		socket.on('fire_projectile', function(data){
+  			projectiles.push(new Projectile(players[data.pid]));
   		});
-  		socket.on('respawn_player', function(){
+  		socket.on('respawn_player', function(data){
   			// players[1].respawn(300,50);
-  			respawnPlayer(players[1]);
+  			respawnPlayer(players[data.pid]);
   		});
-  		socket.on('kill_player', function(){
-
+  		socket.on('kill_player', function(data){
+  			players[data.pid].destroy();
   		});
+  		socket.on('player_hit', function(data){
+  			players[data.pid].hit(data.damage);
+  		})
 	</script>
 
 

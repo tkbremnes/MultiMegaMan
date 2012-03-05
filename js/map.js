@@ -45,9 +45,9 @@ var mapGrid = [];
 function mapInit(){
 	mapGrid[0] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
 	mapGrid[1] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[2] 	= [0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1];
-	mapGrid[3] 	= [1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0];
-	mapGrid[4] 	= [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1];
+	mapGrid[2] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1];
+	mapGrid[3] 	= [0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0];
+	mapGrid[4] 	= [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1];
 	mapGrid[5] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
 	mapGrid[6] 	= [0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1];
 	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1];
@@ -74,7 +74,7 @@ function mapInit(){
 function wallCollisionDetector(p){
 	for(var i=0; i<numberOfCellsVertical; i++){
 		for(var j=0; j<numberOfCellsHorisontal; j++){
-			if(collides(p,mapGrid[i][j])){
+			if(collides(p,mapGrid[i][j], 0, 1)){
 				return true;
 			}
 		}
@@ -97,7 +97,7 @@ function wallSideCollisionDetector(p){
 		}
 	if(p.walksRight){ // Ignore left
 		for(var i=col; i<numberOfCellsHorisontal; i++){
-			if(collides(p, mapGrid[i][j])){
+			if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
 				if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
 					return true;
 				}
@@ -106,7 +106,7 @@ function wallSideCollisionDetector(p){
 	}
 	else{
 		for(var i=col; i>=0; i--){
-			if(collides(p, mapGrid[j][i])){
+			if(collides(p, mapGrid[i][j], -1*p.moveSpeed, 0)){
 				if(!mapGrid[i][j].isBelow(p)){
 					return true;
 				}

@@ -207,20 +207,22 @@ Player.prototype.getSpritePosition = function(){
 }
 
 
-
+// Todo: behold - the reason being hit by projectiles craps up the animation.
 var damageTimeout;
+var damagedPlayer;
 Player.prototype.hit = function(damage){
 	if(!this.isHit){
+		socket.emit('player_hit', {pid: this.pid, damage: damage});
 		this.isHit = true;
 		this.health -= damage;
-		if(this.health<=0){
-			this.destroy();
-		}
-
+		// if(this.health<=0){
+		// 	this.destroy();
+		// }
+		damagedPlayer = players[this.pid];
 		window.clearTimeout(damageTimeout);
 		damageTimeout = setTimeout(function(){
-			players[1].isHit = false;
-		}, 400);
+			damagedPlayer.isHit = false;
+		}, 1000);
 	}
 }
 
@@ -228,7 +230,7 @@ Player.prototype.destroy = function(){
 	// trigger animation
 
 	// schedule respawn
-	socket.emit('player_killed', {pid: this.pid, action: 0});
+	// socket.emit('player_killed', {pid: this.pid, action: 0});
 	destroyPlayer(this);
 }
 
@@ -260,8 +262,15 @@ Player.prototype.shoot = function(){
 
 function updatePlayer(p, newx, newy)
 {
-	console.log("updating");
 	var pl = players[p];
+
+	if(pl.x<newx){
+		pl.walksRight = true;
+	}
+	else if(pl.x>newx){
+		pl.walksRight = false;
+	}
+
 	pl.x = newx;
 	pl.y = newy;
 }

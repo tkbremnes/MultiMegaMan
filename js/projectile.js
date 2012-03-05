@@ -1,5 +1,4 @@
 function Projectile(p) {
-	console.log("creating projectile");
 	this.active = true;
 
 	this.player = p;

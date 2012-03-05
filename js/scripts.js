@@ -7,7 +7,7 @@ var players = [];
 var map;
 function init()
 {
-	
+
 	socket.emit('client_ready', {});
 
 	initCanvas();
@@ -43,7 +43,6 @@ function initOpponent(data){
 }
 
 function updatePlayerPosition(){
-	console.log("sending position");
 	socket.emit('update_player_position', {
 		pid: player.pid,
 		xpos: player.x,
@@ -112,12 +111,12 @@ function isStandingOnGround(p)
 	if(p!==undefined){
 		return wallCollisionDetector(p);
 
-		if(p.y+p.height == wall.y){
-			if(p.x <= wall.width){
-				return true;
-			}
-		}
-		return false;
+		// if(p.y+p.height == wall.y){
+		// 	if(p.x <= wall.width){
+		// 		return true;
+		// 	}
+		// }
+		// return false;
 	}
 	return true;
 }
@@ -128,7 +127,7 @@ function collisionDetector()
 	players.forEach(function(p){
 		// checks for projectile hits
 		projectiles.forEach(function(bullet){
-			if(collides(bullet, p)){
+			if(collides(p, bullet, 0, 0)){
 				p.hit(player.weapon.damage);
 				bullet.destroy();
 				updateHeathBars();
@@ -137,7 +136,7 @@ function collisionDetector()
 
 		// checks for power up pickups
 		powerups.forEach(function(powerup){
-			if(collides(powerup, p)){
+			if(collides(p, powerup, 0, 0)){
 				powerup.applyEffect(p);
 				destroyPowerUp(powerup);
 			}
@@ -146,11 +145,18 @@ function collisionDetector()
 }
 
 // source: http://www.html5rocks.com/en/tutorials/canvas/notearsgame/#toc-collision-detection
-function collides(a, b) {
-  return a.x < b.x + b.width &&
-         a.x + a.width > b.x &&
-         a.y < b.y + b.height &&
-         a.y + a.height > b.y;
+// function collides(a, b) {
+//   return a.x < b.x + b.width &&
+//          a.x + a.width > b.x &&
+//          a.y < b.y + b.height &&
+//          a.y + a.height > b.y;
+// }
+
+function collides(a, b, offsetX, offsetY) {
+  	return a.x+offsetX < b.x + b.width &&
+         a.x+offsetX + a.width > b.x &&
+         a.y+offsetY < b.y + b.height &&
+         a.y+offsetY + a.height > b.y;
 }
 
 
@@ -164,7 +170,7 @@ function moveLeft()
 		}
 	}
 	else{
-		player.x +=2;
+		//player.x +=2;
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
@@ -185,7 +191,7 @@ function moveRight()
 		}
 	}
 	else{
-		player.x -= 2;
+		//player.x -= 2;
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
@@ -218,6 +224,7 @@ function moveUp()
 		currentJumpHeight = 0;
 		enablePlayerGravity();
 	}
+	updatePlayerPosition();
 }
 
 function enablePlayerGravity(){
