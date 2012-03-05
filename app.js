@@ -71,6 +71,7 @@ io.sockets.on('connection', function (socket)
       socket.emit('kill_player', {pid: data.pid});
       socket.broadcast.emit('kill_player', {pid: data.pid});
 
+      players[data.pid].health = 10;
       // Schedule respawn
       setTimeout(function(){
         socket.emit('respawn_player', {pid: data.pid});
