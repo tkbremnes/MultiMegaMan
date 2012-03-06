@@ -5,8 +5,12 @@ var player;
 
 var players = [];
 var map;
+
+var lifeBar;
 function init()
 {
+	lifeBar = new Image();
+	lifeBar.src = '../img/lifeBar.gif';
 
 	socket.emit('client_ready', {});
 
@@ -68,6 +72,9 @@ function draw()
 	drawPlayers();
 	drawProjectiles();
 	drawPowerups();
+	drawLifeBars();
+
+	//DEBUG
 	drawFps();
 	// drawServerMenu();
 }
@@ -85,6 +92,46 @@ function refreshScreen(){
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function drawLifeBars(){
+	// TODO
+	for(var i=0; i<players.length; i++){
+		var xPos, yPos;
+		switch(i){
+			case 0:
+				xPos = 10;
+				yPos = 10;
+				break;
+			case 1:
+				xPos = 482;
+				yPos = 10;
+				break;
+			case 2:
+				xPos = 10;
+				yPos = 434;
+				break;
+			case 3:
+				xPos = 482;
+				yPos = 434;
+				break;
+		}
+		ctx.fillStyle = 'rgb(0,0,0)';
+		ctx.fillRect(xPos,yPos,8,56);
+		
+		for(var j=0; j<(players[i].health)*2; j+=2){
+			ctx.drawImage(
+				lifeBar,
+				0,
+				0,
+				8,
+				2,
+				xPos,
+				56+(yPos -j),
+				8,
+				2
+			);
+		}
+	}
+}
 
 function drawFps(){
 //TODO	

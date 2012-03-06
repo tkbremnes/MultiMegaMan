@@ -63,7 +63,7 @@ function Player(startx, starty, color, playerid){
 
 	this.fireRate = 0;
 
-	this.startingHealth = 10;
+	this.startingHealth = 28;
 	this.health = this.startingHealth;
 
 	this.weapon = new WeaponMegaBlaster();
