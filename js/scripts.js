@@ -7,6 +7,10 @@ var players = [];
 var map;
 
 var lifeBarSpriteImage;
+var menuMode;
+var menu;
+var menuInterval;
+
 function init()
 {
 	lifeBarSpriteImage = new Image();
@@ -17,26 +21,34 @@ function init()
 	initCanvas();
 	initKeyListener();
 
-	//TEMP
+	menuMode = true;
+	menuInterval = window.setInterval(function(){
+		drawIntroMenu();
+	}, 10);
 
+}
+
+function drawIntroMenu(){
+	var introMenu = new IntroMenu();
+	menu = introMenu;
+	ctx.fillStyle = 'rgb(0,0,0)';
+	ctx.fillRect(0, 0, 512, 512);
+	introMenu.buttons.forEach(function(b){
+		if(b.isSelected){
+			ctx.fillStyle = 'rgb(255,255,0)';
+		}
+		else{
+			ctx.fillStyle = 'rgb(255,0,0)';
+		}
+		ctx.fillRect(b.x, b.y, b.width, b.height);
+	});
+}
+
+function startGame(){
+	menuMode = false;
 	map = new Map();
-
-
-	// player = new Player(20, 50, 'blue', 0);
-	// players.push(player);
-	// players.push(new Player(200, 50, 'green', 1));
-
-	// players.forEach(function(p){
-	// 	playIntroAnimation(p);
-	// });
-
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
-
-	// setTimeout(function(){
-	// 	powerups.push(new PowerUpProjectileSpeed(480,10));
-	// }, 2000);
-
 }
 
 function initPlayer(data){
@@ -323,13 +335,9 @@ function enablePlayerGravity(){
 
 function moveDown()
 {
-	if(servermenu.selectedServer>=1){
-		servermenu.selectedServer = 0;
+	if(menuMode){
+		menu.moveDown();
 	}
-	else{
-		servermenu.selectedServer += 1;
-	}
-	console.log(servermenu.selectedServer);
 }
 
 function playerDie()

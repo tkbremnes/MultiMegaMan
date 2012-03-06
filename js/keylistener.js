@@ -8,6 +8,8 @@ var keyDownObj = {
 	kd: false
 };
 
+// var dirArray;
+
 function initKeyListener()
 {
 	$(document).bind('keydown',function(e){
@@ -17,6 +19,7 @@ function initKeyListener()
 				// Left
 				if(!keyDownObj.left){
 					keyDownObj.left = true;
+					// dirArray.push('l');
 					goLeft();
 				}
 				break;
@@ -24,6 +27,7 @@ function initKeyListener()
 				// Right
 				if(!keyDownObj.right){
 					keyDownObj.right = true;
+					// dirArray.push('r');
 					goRight();
 				}
 				break;
@@ -61,6 +65,9 @@ function initKeyListener()
 				break;
 			case(27):
 				document.webkitCancelFullScreen();
+				break;
+			case(71):
+				startGame();
 				break;
 
 		}
