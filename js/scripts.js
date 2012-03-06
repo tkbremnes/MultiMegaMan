@@ -202,7 +202,14 @@ function collisionDetector()
 		// checks for projectile hits
 		projectiles.forEach(function(bullet){
 			if(collides(p, bullet, 0, 0)){
-				p.hit(player.weapon.damage);
+				var direction;
+				if(bullet.vecX>0){
+					direction = 'R';
+				}
+				else{
+					direction = 'L';
+				}
+				p.hit(player.weapon.damage, direction);
 				bullet.destroy();
 				updateHeathBars();
 			}
@@ -291,14 +298,21 @@ function jump(){
 
 function moveUp()
 {
-	player.y -= 2;
-	currentJumpHeight += 2;
-	if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight || wallCollisionDetector(player)){
+	if(!wallTopCollisonDetector(player)){
+		player.y -= 2;
+		currentJumpHeight += 2;
+		if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight || wallCollisionDetector(player)){
+			window.clearInterval(jumpInterval);
+			currentJumpHeight = 0;
+			enablePlayerGravity();
+		}
+		updatePlayerPosition();
+	}
+	else{
 		window.clearInterval(jumpInterval);
 		currentJumpHeight = 0;
 		enablePlayerGravity();
 	}
-	updatePlayerPosition();
 }
 
 function enablePlayerGravity(){

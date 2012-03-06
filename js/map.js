@@ -47,17 +47,17 @@ function mapInit(){
 	mapGrid[1] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[2] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1];
 	mapGrid[3] 	= [0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0];
-	mapGrid[4] 	= [1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1];
-	mapGrid[5] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
+	mapGrid[4] 	= [1,1,1,1,0,0,0,1,1,1,1,1,0,0,0,1];
+	mapGrid[5] 	= [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1];
 	mapGrid[6] 	= [0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1];
 	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1];
-	mapGrid[8] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[9] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[10] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[11] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[8] 	= [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0];
+	mapGrid[9] 	= [0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0];
+	mapGrid[10] = [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[11] = [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[12] = [0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0];
-	mapGrid[13] = [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0];
-	mapGrid[14] = [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0];
+	mapGrid[13] = [0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0];
+	mapGrid[14] = [0,0,1,0,0,0,0,0,0,0,0,0,1,0,1,0];
 	mapGrid[15] = [1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,1];
 
 	for(var i=0; i<numberOfCellsVertical; i++){
@@ -79,6 +79,30 @@ function wallCollisionDetector(p){
 			}
 		}
 	}
+	return false;
+}
+
+// TODO: prettify!
+function wallTopCollisonDetector(p){
+	var row = Math.floor((p.y)/cellSize);
+	var col = Math.floor((p.x)/cellSize);
+
+	if(col<=0 || row<=0){
+		return false;
+	}
+
+	if(mapGrid[col][row-1]!=0){
+		if(collides(p, mapGrid[col][row-1], 0, -2)){
+			return true;
+		}
+	}
+
+	if(mapGrid[col][row-1]!=0){
+		if(collides(p, mapGrid[col+1][row-1], 0, -2)){
+			return true;
+		}
+	}
+	
 	return false;
 }
 

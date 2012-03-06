@@ -106,7 +106,7 @@ function drawPlayers(){
 			0,
 			p.spriteWidth,
 			p.spriteHeight,
-			p.x-8,
+			p.x-4,
 			p.y-8,
 			p.spriteWidth,
 			p.spriteHeight
@@ -207,11 +207,19 @@ Player.prototype.getSpritePosition = function(){
 
 // Todo: behold - the reason being hit by projectiles craps up the animation.
 var damageStack = [];
-Player.prototype.hit = function(damage){
+Player.prototype.hit = function(damage, direction){
 	if(!this.isHit){
 		socket.emit('player_hit', {pid: this.pid, damage: damage});
 		this.isHit = true;
 		this.health -= damage;
+
+		// if(direction === 'R'){
+		// 	this.x += 4;
+		// }
+		// else{
+		// 	this.x -= 4;
+		// }
+		this.gravity = true;
 		// if(this.health<=0){
 		// 	this.destroy();
 		// }
