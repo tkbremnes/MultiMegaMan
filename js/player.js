@@ -164,7 +164,6 @@ Player.prototype.getSprite = function(){
 			return this.jumpRightSpriteImage;
 		}
 		if(this.isShooting){
-			// TODO
 			return this.walkRightShootingSpriteImage;
 		}
 		return this.walkRightSpriteImage;
@@ -174,16 +173,9 @@ Player.prototype.getSprite = function(){
 			return this.damageLeftSpriteImage;
 		}
 		if(this.isAirborne){
-			if(this.isShooting){
-				// TODO
-			}
-			else
-			{
-				return this.jumpLeftSpriteImage;
-			}
+			return this.jumpLeftSpriteImage;
 		}
 		if(this.isShooting){
-			// TODO
 			return this.walkLeftShootingSpriteImage;
 		}
 		return this.walkLeftSpriteImage;
