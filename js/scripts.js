@@ -27,9 +27,9 @@ function init()
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
 
-	setTimeout(function(){
-		powerups.push(new PowerUpProjectileSpeed(480,49));
-	}, 500);
+	// setTimeout(function(){
+	// 	powerups.push(new PowerUpProjectileSpeed(480,10));
+	// }, 2000);
 
 }
 
@@ -102,6 +102,11 @@ function doGravity() {
 			else{
 				p.isAirborne = false;
 			}
+		}
+	});
+	powerups.forEach(function(p){
+		if(!isStandingOnGround(p)){
+			p.y += 1;
 		}
 	});
 }

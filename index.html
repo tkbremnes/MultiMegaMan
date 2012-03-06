@@ -64,7 +64,10 @@
   		});
   		socket.on('player_hit', function(data){
   			players[data.pid].hit(data.damage);
-  		})
+  		});
+  		socket.on('spawn_powerup', function(data){
+  			powerups.push(new PowerUpProjectileSpeed(data.posX, data.posY));
+  		});
 	</script>
 
 

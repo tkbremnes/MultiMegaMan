@@ -102,6 +102,40 @@ io.sockets.on('connection', function (socket)
 
 });
 
+// Power up
+var powerups = [];
+var powerupCooldown;
+function initGame(){
+
+  // powerupCooldown = 10000 + (Math.round(Math.random()*20000));
+  powerupCooldown = 2000;
+  setTimeout(function(){
+     spawnPowerup();
+  }, powerupCooldown);
+}
+
+function spawnPowerup(){
+  // TODO
+  // Sjekke om det er noen koblet til
+  // hvis ikke - ordne en form for long-polling
+
+  // var powerup = new getRandomPowerup();
+  // powerups.push(powerup);
+  // socket.broadcast('spawn_powerup', {powerup: powerup()});
+
+  // // Schedule next
+  // setTimeout(function(){
+  //    spawnPowerUp();
+  // }, powerupCooldown);
+}
+
+function getRandomPowerup(){
+  var rand = Math.round(Math.random()*3);
+  var posX = Math.round(Math.random()*500);
+  var posY = 10;
+  return {type: rand, posX: posX, posY: posY};
+}
+
 // Game data
 var respawnTime = 3000;
 var players = [];
@@ -165,3 +199,5 @@ function Player(id, x, y){
 
   this.health = 10;
 }
+
+initGame();
