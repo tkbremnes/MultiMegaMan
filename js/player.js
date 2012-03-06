@@ -133,6 +133,7 @@ function playIntroAnimation(p){
 }
 
 
+// Bug: does not return jump left shoot sprite correctly
 
 // var flickerTimer = 0;
 Player.prototype.getSprite = function(){

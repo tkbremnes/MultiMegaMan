@@ -29,7 +29,7 @@ function initKeyListener()
 				break;
 
 			case(88):
-				// Up
+				// Jump (letter x)
 				if(!keyDownObj.up){
 					keyDownObj.up = true;
 					jump();
@@ -43,8 +43,14 @@ function initKeyListener()
 					fire();
 				}
 				break;
+			case(38):
+				// Up
+				e.preventDefault();
+				// TODO
+				break;
 			case(40):
 				// Down
+				e.preventDefault();
 				if(!keyDownObj.down){
 					keyDownObj.down = true;
 					moveDown();

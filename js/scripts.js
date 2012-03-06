@@ -13,6 +13,8 @@ function init()
 	initCanvas();
 	initKeyListener();
 
+	//TEMP
+
 	map = new Map();
 
 
@@ -67,6 +69,7 @@ function draw()
 	drawProjectiles();
 	drawPowerups();
 	drawFps();
+	// drawServerMenu();
 }
 
 function update(){
@@ -85,6 +88,25 @@ function refreshScreen(){
 
 function drawFps(){
 //TODO	
+}
+
+function drawServerMenu(){
+	if(servermenu.active){
+		ctx.fillStyle = 'rgb(255,255,255)';
+		ctx.fillRect(100,100,servermenu.width, servermenu.height);
+
+
+		for(var i=0; i<servers.length; i++){
+			var s = servers[i];
+			if(servermenu.selectedServer==i){
+				ctx.fillStyle = 'rgb(255,0,0)';
+			}
+			else{
+				ctx.fillStyle = 'rgb(0,0,0)'
+			}
+			ctx.fillRect(100, 100+(100*i), servermenu.width, 100);
+		}
+	}
 }
 
 
@@ -240,7 +262,13 @@ function enablePlayerGravity(){
 
 function moveDown()
 {
-	
+	if(servermenu.selectedServer>=1){
+		servermenu.selectedServer = 0;
+	}
+	else{
+		servermenu.selectedServer += 1;
+	}
+	console.log(servermenu.selectedServer);
 }
 
 function playerDie()
