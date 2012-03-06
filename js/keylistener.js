@@ -56,6 +56,12 @@ function initKeyListener()
 					moveDown();
 				}
 				break;
+			case(70):
+				document.getElementById('canvas').webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+				break;
+			case(27):
+				document.webkitCancelFullScreen();
+				break;
 
 		}
 	});
