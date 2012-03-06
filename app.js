@@ -71,7 +71,7 @@ io.sockets.on('connection', function (socket)
       socket.emit('kill_player', {pid: data.pid});
       socket.broadcast.emit('kill_player', {pid: data.pid});
 
-      players[data.pid].health = 28;
+      players[data.pid].health = players[data.pid].startHealth;
       // Schedule respawn
       setTimeout(function(){
         socket.emit('respawn_player', {pid: data.pid});
@@ -197,7 +197,8 @@ function Player(id, x, y){
   this.xpos = x;
   this.ypos = y;
 
-  this.health = 10;
+  this.health = 28;
+  this.startHealth = 28;
 }
 
 initGame();

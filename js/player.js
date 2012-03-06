@@ -5,14 +5,16 @@ function Player(startx, starty, color, playerid){
 	this.color = color;
 
 	// TODO
-	this.hitboxWidth = 32;
-	this.hitboxHeight = 32;
+	this.hitboxWidth = 24;
+	this.hitboxHeight = 24;
 
-	this.height = 32; // Height in pixels
-	this.width = 32;  // Width in pixels
+	this.height = 24; // Height in pixels
+	this.width = 24;  // Width in pixels
 
 	this.walksRight = true;
 
+	this.spriteHeight = 32;
+	this.spriteWidth = 32;
 
 	this.blankSprite = new Image();
 	this.blankSprite.src = '../img/blank.gif';
@@ -102,12 +104,12 @@ function drawPlayers(){
 			p.getSprite(),
 			p.getSpritePosition(),
 			0,
-			p.width,
-			p.height,
-			p.x,
-			p.y,
-			p.width,
-			p.height
+			p.spriteWidth,
+			p.spriteHeight,
+			p.x-8,
+			p.y-8,
+			p.spriteWidth,
+			p.spriteHeight
 		);
 	}
 }
@@ -184,18 +186,18 @@ Player.prototype.getSprite = function(){
 
 Player.prototype.getSpritePosition = function(){
 	if(this.playIntro){
-		return this.width*this.introAnimCycle;
+		return this.spriteWidth*this.introAnimCycle;
 	}
 	if(this.isAirborne){
 		if(this.isShooting){
-			return this.width*2;
+			return this.spriteWidth*2;
 		}
 		else{
 			return 0;
 		}
 	}
 	if(this.animating){
-		return this.width*this.animCycle;
+		return this.spriteWidth*this.animCycle;
 	}
 	else{
 		return 0;

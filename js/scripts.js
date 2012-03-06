@@ -6,11 +6,11 @@ var player;
 var players = [];
 var map;
 
-var lifeBar;
+var lifeBarSpriteImage;
 function init()
 {
-	lifeBar = new Image();
-	lifeBar.src = '../img/lifeBar.gif';
+	lifeBarSpriteImage = new Image();
+	lifeBarSpriteImage.src = '../img/lifeBar.gif';
 
 	socket.emit('client_ready', {});
 
@@ -102,16 +102,16 @@ function drawLifeBars(){
 				yPos = 10;
 				break;
 			case 1:
-				xPos = 482;
+				xPos = 494;
 				yPos = 10;
 				break;
 			case 2:
 				xPos = 10;
-				yPos = 434;
+				yPos = 446;
 				break;
 			case 3:
-				xPos = 482;
-				yPos = 434;
+				xPos = 494;
+				yPos = 446;
 				break;
 		}
 		ctx.fillStyle = 'rgb(0,0,0)';
@@ -119,7 +119,7 @@ function drawLifeBars(){
 		
 		for(var j=0; j<(players[i].health)*2; j+=2){
 			ctx.drawImage(
-				lifeBar,
+				lifeBarSpriteImage,
 				0,
 				0,
 				8,
