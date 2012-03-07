@@ -2,7 +2,7 @@ var keyIsDown = false;
 var keyDownObj = {
 	left: false,
 	right: false,
-	up: false,
+	jump: false,
 	down: false,
 	fire: false,
 	kd: false
@@ -34,9 +34,9 @@ function initKeyListener()
 
 			case(88):
 				// Jump (letter x)
-				if(!keyDownObj.up){
-					keyDownObj.up = true;
-					jump();
+				if(!keyDownObj.jump){
+					keyDownObj.jump = true;
+					xButtonPressed();
 				}
 				break;
 
@@ -95,8 +95,8 @@ function initKeyListener()
 				break;
 			case(88):
 				// Jump (letter x)
-				if(keyDownObj.up){
-					keyDownObj.up = false;
+				if(keyDownObj.jump){
+					keyDownObj.jump = false;
 				}
 				break;
 			case(90):

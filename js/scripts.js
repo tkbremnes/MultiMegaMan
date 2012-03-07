@@ -11,29 +11,41 @@ var menuMode;
 var menu;
 var menuInterval;
 
+var soundEffects = [];
+
 function init()
 {
 	lifeBarSpriteImage = new Image();
 	lifeBarSpriteImage.src = '../img/lifeBar.gif';
+	initSoundEffects();
 
 	socket.emit('client_ready', {});
 
 	initCanvas();
 	initKeyListener();
 
+	initIntroMenu();
 	menuMode = true;
+
 	menuInterval = window.setInterval(function(){
 		drawIntroMenu();
 	}, 10);
 
 }
+function initSoundEffects(){
 
+}
+
+function initIntroMenu(){
+	menu = new IntroMenu();
+}
 function drawIntroMenu(){
-	var introMenu = new IntroMenu();
-	menu = introMenu;
 	ctx.fillStyle = 'rgb(0,0,0)';
 	ctx.fillRect(0, 0, 512, 512);
-	introMenu.buttons.forEach(function(b){
+	// ctx.fillStyle = 'rgb(255,255,255)';
+	// ctx.font = '8px monospace';
+	// ctx.fillText(menu.introMessage, 0, 0);
+	menu.buttons.forEach(function(b){
 		if(b.isSelected){
 			ctx.fillStyle = 'rgb(255,255,0)';
 		}
@@ -46,6 +58,7 @@ function drawIntroMenu(){
 
 function startGame(){
 	menuMode = false;
+	window.clearInterval(menuInterval);
 	map = new Map();
 	setInterval('update()', 20);
 	setInterval('doGravity()', 5);
@@ -313,7 +326,7 @@ function moveUp()
 	if(!wallTopCollisonDetector(player)){
 		player.y -= 2;
 		currentJumpHeight += 2;
-		if(!keyDownObj.up || currentJumpHeight>=player.jumpHeight || wallCollisionDetector(player)){
+		if(!keyDownObj.jump || currentJumpHeight>=player.jumpHeight || wallCollisionDetector(player)){
 			window.clearInterval(jumpInterval);
 			currentJumpHeight = 0;
 			enablePlayerGravity();
@@ -500,4 +513,12 @@ function respawnCountdown(p, s){
 
 function respawnPlayer(p){
 	p.respawn(200,50);
+}
+function xButtonPressed(){
+	if(menuMode){
+		menu.pushButton();
+	}
+	else{
+		jump();
+	}
 }

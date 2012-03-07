@@ -31,8 +31,15 @@ function IntroMenu(){
 
 	this.introMessage = "Welcome to Multi Mega Man!";
 
-	this.startButton = new canvasButton(0, 100, 50, 200, 300, "Start Game", true);
-	this.dummyButton = new canvasButton(0, 100, 50, 200, 400, "Start Game", false);
+	var func1 = function(){
+		console.log("hello world");
+	}
+	var func2 = function(){
+		startGame();
+	}
+
+	this.startButton = new canvasButton(func1, 100, 50, 200, 300, "Start Game", true);
+	this.dummyButton = new canvasButton(func2, 100, 50, 200, 400, "Start Game", false);
 
 	this.buttons = [this.startButton, this.dummyButton];
 	this.selectedButton = 0;
@@ -42,15 +49,20 @@ IntroMenu.prototype.getButtons = function() {
 	return this.buttons;
 };
 
+IntroMenu.prototype.pushButton = function(){
+
+	this.buttons[this.selectedButton].f();
+}
+
 IntroMenu.prototype.moveDown = function(){
-	console.log(this.buttons.length);
+
 	this.buttons[this.selectedButton].isSelected = false;
 	this.selectedButton += 1;
 	if(this.selectedButton>=this.buttons.length){
 		this.selectedButton = 0;
 	}
 	this.buttons[this.selectedButton].isSelected = true;
-	console.log(this.selectedButton);
+	
 }
 
 function canvasButton(f, width, height, posX, posY, text, isSelected){
@@ -60,4 +72,5 @@ function canvasButton(f, width, height, posX, posY, text, isSelected){
 	this.width = width;
 	this.x = posX;
 	this.y = posY;
+	this.f = f;
 }
