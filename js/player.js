@@ -83,10 +83,9 @@ function Player(startx, starty, color, playerid){
 }
 
 Player.prototype.hitGround = function() {
-	playSound(soundEffects['9'].buffer);
-
-	this.isAirborne = false;
 	this.fallSpeed = 0;
+	playSound(soundEffects['9'].buffer);
+	this.isAirborne = false;
 };
 
 Player.prototype.increaseFallSpeed = function()
@@ -101,8 +100,6 @@ Player.prototype.doGravity = function(){
 		}
 	}
 
-	this.y += this.fallSpeed;
-	this.y = Math.round(this.y);
 	
 	if(isStandingOnGround(this)){
 		if(this.fallSpeed>0){
@@ -112,6 +109,10 @@ Player.prototype.doGravity = function(){
 	else{
 		this.increaseFallSpeed();
 	}
+
+	
+	this.y += this.fallSpeed;
+	this.y = Math.round(this.y);
 }
 
 Player.prototype.update = function(){
@@ -330,6 +331,5 @@ Player.prototype.jump = function(){
 }
 
 Player.prototype.stopJump = function(){
-	// todo: fix bug where tapping button keeps you airborne
 	player.fallSpeed = 0;
 }

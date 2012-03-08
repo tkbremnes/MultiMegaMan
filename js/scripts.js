@@ -103,7 +103,7 @@ function drawIntroMenu(){
 }
 
 function startGame(){
-	// playSound(soundEffects['25'].buffer);
+	playSound(soundEffects['25'].buffer);
 	menuMode = false;
 	window.clearInterval(menuInterval);
 	map = new Map();
@@ -230,30 +230,6 @@ function drawServerMenu(){
 }
 
 function doGravity() {
-	// players.forEach(function(p){
-	// 	if(p.gravity){
-	// 		var sog = isStandingOnGround(p);
-	// 		// console.log(sog);
-	// 		if(!sog){
-	// 			p.isAirborne = true;
-	// 			p.increaseFallSpeed();
-	// 		}
-	// 		else{
-	// 			p.isAirborne = false;
-	// 			console.log(p.fallSpeed);
-	// 			if(!p.fallSpeed>=0){
-	// 				p.fallSpeed = 0;
-	// 			}
-	// 		}
-	// 		p.y += p.fallSpeed;
-	// 	}
-	// 	// console.log(p.x + " " + p.y)
-	// });
-	// powerups.forEach(function(p){
-	// 	if(!isStandingOnGround(p)){
-	// 		p.y += 1;
-	// 	}
-	// });
 	players.forEach(function(p){
 		p.doGravity();
 	});
@@ -263,13 +239,6 @@ function isStandingOnGround(p)
 {
 	if(p!==undefined){
 		return wallBottomCollisionDetector(p);
-
-		// if(p.y+p.height == wall.y){
-		// 	if(p.x <= wall.width){
-		// 		return true;
-		// 	}
-		// }
-		// return false;
 	}
 	return true;
 }

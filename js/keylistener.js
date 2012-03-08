@@ -129,9 +129,11 @@ function xButtonPressed(){
 function xButtonReleased(){
 	if(!menuMode){
 		// Stops the jump with a slight delay
-		setTimeout(function(){
-			player.stopJump();
-		}, 50);
+		if(player.fallSpeed<0){
+			setTimeout(function(){
+				player.stopJump();
+			}, 50);
+		}
 	}
 }
 

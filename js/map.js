@@ -160,16 +160,5 @@ function wallSideCollisionDetector(p){
 		}
 	}
 	}
-	// row++;
-	// if(row<0){
-	// 	return false;
-	// }
-
-	// for(var i=0; i<numberOfCellsHorisontal; i++){
-	// 	if(collides(p, mapGrid[i][row])){
-	// 		console.log("rawr");
-	// 		return true;
-	// 	}
-	// }
 	return false;
 }
