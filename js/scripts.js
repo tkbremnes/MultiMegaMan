@@ -82,25 +82,7 @@ function playSound(buffer) {
 }
 //------------------------------
 
-function initIntroMenu(){
-	menu = new IntroMenu();
-}
-function drawIntroMenu(){
-	ctx.fillStyle = 'rgb(0,0,0)';
-	ctx.fillRect(0, 0, 512, 512);
-	// ctx.fillStyle = 'rgb(255,255,255)';
-	// ctx.font = '8px monospace';
-	// ctx.fillText(menu.introMessage, 0, 0);
-	menu.buttons.forEach(function(b){
-		if(b.isSelected){
-			ctx.fillStyle = 'rgb(255,255,0)';
-		}
-		else{
-			ctx.fillStyle = 'rgb(255,0,0)';
-		}
-		ctx.fillRect(b.x, b.y, b.width, b.height);
-	});
-}
+
 
 function startGame(){
 	playSound(soundEffects['25'].buffer);
@@ -198,7 +180,7 @@ function drawLifeBars(){
 				8,
 				2,
 				xPos,
-				56+(yPos -j),
+				54+(yPos -j),
 				8,
 				2
 			);
@@ -349,12 +331,6 @@ function enablePlayerGravity(){
 	
 }
 
-function moveDown()
-{
-	if(menuMode){
-		menu.moveDown();
-	}
-}
 
 function playerDie()
 {

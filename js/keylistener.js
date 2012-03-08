@@ -19,16 +19,14 @@ function initKeyListener()
 				// Left
 				if(!keyDownObj.left){
 					keyDownObj.left = true;
-					// dirArray.push('l');
-					goLeft();
+					leftButtonPressed();
 				}
 				break;
 			case(39):
 				// Right
 				if(!keyDownObj.right){
 					keyDownObj.right = true;
-					// dirArray.push('r');
-					goRight();
+					rightButtonPressed();
 				}
 				break;
 
@@ -50,6 +48,7 @@ function initKeyListener()
 			case(38):
 				// Up
 				e.preventDefault();
+				upButtonPressed();
 				// TODO
 				break;
 			case(40):
@@ -57,7 +56,7 @@ function initKeyListener()
 				e.preventDefault();
 				if(!keyDownObj.down){
 					keyDownObj.down = true;
-					moveDown();
+					downButtonPressed();
 				}
 				break;
 			case(70):
@@ -79,18 +78,14 @@ function initKeyListener()
 				// Left
 				if(keyDownObj.left){
 					keyDownObj.left = false;
-					goingLeft = false;
-					stopWalking();
-					stopAnimation();
+					leftButtonReleased();
 				}
 				break;
 			case(39):
 				// Right
 				if(keyDownObj.right){
 					keyDownObj.right = false;
-					goingRight = false;
-					stopWalking();
-					stopAnimation();
+					rightButtonReleased();
 				}
 				break;
 			case(88):
@@ -116,6 +111,60 @@ function initKeyListener()
 	});
 }
 
+function leftButtonPressed(){
+	if(menuMode){
+	}
+	else{
+		goLeft();
+	}
+}
+function leftButtonReleased(){
+	if(menuMode){
+	}
+	else{
+		goingLeft = false;
+		stopAnimation();
+		setTimeout(function(){
+			stopWalking();
+		}, 50); 
+	}
+}
+function rightButtonPressed(){
+	if(menuMode){
+	}
+	else{	
+		goRight();
+	}
+}
+function rightButtonReleased(){
+	if(menuMode){
+	}
+	else{
+		goingRight = false;
+		stopAnimation();
+		setTimeout(function(){
+			stopWalking();
+		}, 50);
+	}
+}
+
+function upButtonPressed(){
+	if(menuMode){
+		menu.moveUp();
+	}
+}
+function upButtonReleased(){
+
+}
+
+function downButtonPressed(){
+	if(menuMode){
+		menu.moveDown();
+	}
+}
+function downButtonReleased(){
+
+}
 
 function xButtonPressed(){
 	if(menuMode){
