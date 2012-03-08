@@ -62,6 +62,10 @@ IntroMenu.prototype.moveDown = function(){
 		this.selectedButton = 0;
 	}
 	this.buttons[this.selectedButton].isSelected = true;
+	console.log(soundEffects['14']);
+	if(soundEffects['14'].buffer!=null){
+		playSound(soundEffects['14'].buffer);
+	}
 	
 }
 

@@ -11,7 +11,6 @@ var menuMode;
 var menu;
 var menuInterval;
 
-var soundEffects = [];
 
 function init()
 {
@@ -32,9 +31,47 @@ function init()
 	}, 10);
 
 }
-function initSoundEffects(){
 
+//------------------------------
+// SOUND
+//
+// http://www.html5rocks.com/en/tutorials/webaudio/intro/
+//------------------------------
+
+function initSoundEffects(){
+	bufferReader(soundEffects['4']);
+	bufferReader(soundEffects['10']);
+	bufferReader(soundEffects['9']);
+	bufferReader(soundEffects['14']);
+	bufferReader(soundEffects['25']);
 }
+function onError(error){
+	console.log("error");
+}
+
+function bufferReader(sfx){
+	var request = new XMLHttpRequest();
+  	request.open('GET', sfx.url, true);
+  	request.responseType = 'arraybuffer';
+
+  	request.onload = function() {
+    audioContext.decodeAudioData(request.response, function(buffer) {
+    	sfx.buffer = buffer;
+    	}, onError);
+  	}
+  	request.send();
+}
+
+// var selectSoundBuffer = null;
+var audioContext = new webkitAudioContext();
+
+function playSound(buffer) {
+	var source = audioContext.createBufferSource(); // creates a sound source
+	source.buffer = buffer;                    		// tell the source which sound to play
+	source.connect(audioContext.destination);       // connect the source to the context's destination (the speakers)
+	source.noteOn(0);                          		// play the source now
+}
+//------------------------------
 
 function initIntroMenu(){
 	menu = new IntroMenu();
@@ -57,6 +94,7 @@ function drawIntroMenu(){
 }
 
 function startGame(){
+	playSound(soundEffects['25'].buffer);
 	menuMode = false;
 	window.clearInterval(menuInterval);
 	map = new Map();
@@ -342,9 +380,8 @@ function moveUp()
 
 function enablePlayerGravity(){
 	player.gravity = true;
+	
 }
-
-
 
 function moveDown()
 {
@@ -439,6 +476,7 @@ var destoyProjectileInterval;
 function fire(){
 	window.clearInterval(projectileInverval);
 	if(player.weapon.isReady){
+		playSound(soundEffects['4'].buffer);
 		player.shoot();
 
 		// Create projectile

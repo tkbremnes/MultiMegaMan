@@ -209,6 +209,7 @@ Player.prototype.getSpritePosition = function(){
 var damageStack = [];
 Player.prototype.hit = function(damage, direction){
 	if(!this.isHit){
+		playSound(soundEffects['10'].buffer);
 		socket.emit('player_hit', {pid: this.pid, damage: damage});
 		this.isHit = true;
 		this.health -= damage;
