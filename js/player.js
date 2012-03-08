@@ -95,6 +95,12 @@ Player.prototype.increaseFallSpeed = function()
 };
 
 Player.prototype.doGravity = function(){
+	if(this.isAirborne){
+		if(wallTopCollisonDetector(this)){
+			this.stopJump();
+		}
+	}
+
 	this.y += this.fallSpeed;
 	this.y = Math.round(this.y);
 	
@@ -118,12 +124,6 @@ Player.prototype.update = function(){
 		this.y = 0;
 		this.height = 0;
 		this.width = 0;
-	}
-	if(this.isAirborne){
-		if(wallTopCollisonDetector(this)){
-			console.log("collision!");
-			stopJump();
-		}
 	}
 }
 
@@ -330,5 +330,6 @@ Player.prototype.jump = function(){
 }
 
 Player.prototype.stopJump = function(){
+	// todo: fix bug where tapping button keeps you airborne
 	player.fallSpeed = 0;
 }

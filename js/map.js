@@ -114,13 +114,13 @@ function wallTopCollisonDetector(p){
 	}
 
 	if(mapGrid[col][row-1]!=0){
-		if(collides(p, mapGrid[col][row-1], 0, -2)){
+		if(collides(p, mapGrid[col][row-1], 0, Math.ceil(p.fallSpeed))){
 			return true;
 		}
 	}
 
 	if(mapGrid[col+1][row-1]!=0){
-		if(collides(p, mapGrid[col+1][row-1], 0, -2)){
+		if(collides(p, mapGrid[col+1][row-1], 0, Math.ceil(p.fallSpeed))){
 			return true;
 		}
 	}
