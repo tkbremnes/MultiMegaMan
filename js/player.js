@@ -52,15 +52,10 @@ function Player(startx, starty, color, playerid){
 
 	this.isAirborne = false;
 	this.isShooting = false;
-	this.jumpHeight = 60;
-	this.jumpHeight = 43; // Jumps 43 pixels
-	// Jump time - between 0.6 and 0.7
-	// this.jumpSpeed = 0;
-	this.jumpSpeed = 4.875/2;
-	// this.jumpSpeed = 60;
+	this.jumpSpeed = 4.875/1.5;  // This makes Rock jump 50 pixels.
 	this.isHit = false;
 
-	this.moveSpeed = 2;
+	this.moveSpeed = 1.375*1.5; // bounded to fps
 	this.jumping = false;
 
 	this.gravity = true;
@@ -101,6 +96,7 @@ Player.prototype.increaseFallSpeed = function()
 
 Player.prototype.doGravity = function(){
 	this.y += this.fallSpeed;
+	this.y = Math.round(this.y);
 	
 	if(isStandingOnGround(this)){
 		if(this.fallSpeed>0){
@@ -122,6 +118,12 @@ Player.prototype.update = function(){
 		this.y = 0;
 		this.height = 0;
 		this.width = 0;
+	}
+	if(this.isAirborne){
+		if(wallTopCollisonDetector(this)){
+			console.log("collision!");
+			stopJump();
+		}
 	}
 }
 
@@ -314,4 +316,19 @@ function updatePlayer(p, newx, newy)
 
 	pl.x = newx;
 	pl.y = newy;
+}
+
+Player.prototype.jump = function(){
+	if(!this.isAirborne){
+		this.isAirborne = true;
+		
+		if(isStandingOnGround()) {
+			this.jumping = true;
+			this.fallSpeed = -1*player.jumpSpeed;
+		}
+	}
+}
+
+Player.prototype.stopJump = function(){
+	player.fallSpeed = 0;
 }

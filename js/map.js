@@ -48,9 +48,9 @@ var mapGrid = [];
 function mapInit(){
 	mapGrid[0] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[1] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[2] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1];
-	mapGrid[3] 	= [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0];
-	mapGrid[4] 	= [1,1,0,1,0,0,1,1,1,1,1,1,0,0,0,1];
+	mapGrid[2] 	= [0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1];
+	mapGrid[3] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[4] 	= [1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1];
 	mapGrid[5] 	= [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1];
 	mapGrid[6] 	= [0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1];
 	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1];
@@ -74,14 +74,33 @@ function mapInit(){
 	// console.log(mapGrid[0][0]);
 }
 
-function wallCollisionDetector(p){
-	for(var i=0; i<numberOfCellsVertical; i++){
-		for(var j=0; j<numberOfCellsHorisontal; j++){
-			if(collides(p,mapGrid[i][j], 0, 1)){
+function wallBottomCollisionDetector(p){
+	var row = Math.floor((p.y)/cellSize);
+	var col = Math.floor((p.x)/cellSize);
+
+	if(col<0 || row<=0){
+		return false;
+	}
+
+	if(mapGrid[col][row+1]!=0){
+		if(collides(p, mapGrid[col][row+1], 0, Math.floor(p.fallSpeed))){
+			return true;
+		}
+	}
+	if(mapGrid[col+1][row+1]!=0){
+		if(collides(p, mapGrid[col+1][row+1], 0, Math.floor(p.fallSpeed))){
+			return true;
+		}
+	}
+
+	if(col!=0){
+		if(mapGrid[col-1][row+1]!=0){
+			if(collides(p, mapGrid[col-1][row+1], 0, Math.floor(p.fallSpeed))){
 				return true;
 			}
 		}
 	}
+	
 	return false;
 }
 
@@ -90,7 +109,7 @@ function wallTopCollisonDetector(p){
 	var row = Math.floor((p.y)/cellSize);
 	var col = Math.floor((p.x)/cellSize);
 
-	if(col<=0 || row<=0){
+	if(col<0 || row<=0){
 		return false;
 	}
 
@@ -100,7 +119,7 @@ function wallTopCollisonDetector(p){
 		}
 	}
 
-	if(mapGrid[col][row-1]!=0){
+	if(mapGrid[col+1][row-1]!=0){
 		if(collides(p, mapGrid[col+1][row-1], 0, -2)){
 			return true;
 		}

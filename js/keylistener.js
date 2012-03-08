@@ -44,7 +44,7 @@ function initKeyListener()
 				// Fire (letter z)
 				if(!keyDownObj.fire){
 					keyDownObj.fire = true;
-					fire();
+					zButtonPressed();
 				}
 				break;
 			case(38):
@@ -96,6 +96,7 @@ function initKeyListener()
 			case(88):
 				// Jump (letter x)
 				if(keyDownObj.jump){
+					xButtonReleased();
 					keyDownObj.jump = false;
 				}
 				break;
@@ -113,4 +114,33 @@ function initKeyListener()
 				break;
 		}
 	});
+}
+
+
+function xButtonPressed(){
+	if(menuMode){
+		menu.pushButton();
+	}
+	else{
+		player.jump();
+	}
+}
+
+function xButtonReleased(){
+	if(!menuMode){
+		// Stops the jump with a slight delay
+		setTimeout(function(){
+			player.stopJump();
+		}, 50);
+	}
+}
+
+function zButtonPressed(){
+	if(!menuMode){
+		fire();
+	}
+}
+
+function zButtonReleased(){
+	// body
 }

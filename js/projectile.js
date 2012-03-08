@@ -4,7 +4,13 @@ function Projectile(p) {
 	this.player = p;
 
 	this.x = this.player.x;
-	this.y = this.player.y + (this.player.height/2);//+3;
+	if(this.player.isAirborne){
+		this.y = this.player.y + (this.player.height/2)-6;//+3;
+	}
+	else{
+		this.y = this.player.y + (this.player.height/2)-2;
+	}
+	
 
 	this.startX = this.x;
 	this.startY = this.y;
@@ -20,11 +26,11 @@ function Projectile(p) {
 
 	if(this.player.walksRight){
 		this.vecX = this.moveSpeed;
-		this.x += this.player.width;
+		this.x += this.player.width + 5;
 	}
 	else{
 		this.vecX = -this.moveSpeed;
-		this.x -= 5;
+		this.x -= 9;
 	}
 	this.vecY = 0;
 

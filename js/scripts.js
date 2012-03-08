@@ -107,7 +107,7 @@ function startGame(){
 	menuMode = false;
 	window.clearInterval(menuInterval);
 	map = new Map();
-	setInterval('update()', 1000/targetFps);
+	setInterval('update()', 1000/gravityUpdateInterval);
 	setInterval('draw()', 1000/targetFps);
 	setInterval('doGravity()', 1000/gravityUpdateInterval);
 	setInterval('collisionDetector();', 1000/collisionDetectorInterval);
@@ -262,7 +262,7 @@ function doGravity() {
 function isStandingOnGround(p)
 {
 	if(p!==undefined){
-		return wallCollisionDetector(p);
+		return wallBottomCollisionDetector(p);
 
 		// if(p.y+p.height == wall.y){
 		// 	if(p.x <= wall.width){
@@ -325,12 +325,10 @@ function moveLeft()
 	player.walksRight = false;
 
 	if(!wallSideCollisionDetector(player)){
-		if(player.x>=0){
+		if(player.x>=10){
 			player.x -= player.moveSpeed;
+			player.x = Math.round(player.x);
 		}
-	}
-	else{
-		//player.x +=2;
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
@@ -348,35 +346,14 @@ function moveRight()
 	{
 		if(player.x<=500-player.width){
 			player.x += player.moveSpeed;
+			player.x = Math.round(player.x);
 		}
-	}
-	else{
-		//player.x -= 2;
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}
 
 	updatePlayerPosition();
-}
-
-var jumpInterval;
-var currentJumpHeight;
-
-function jump(){
-	if(!player.isAirborne){
-		player.isAirborne = true;
-		// player.gravity = false;
-		currentJumpHeight = 0;
-		
-		if(isStandingOnGround()) {
-			// jumpInterval = setInterval('moveUp()', 2);
-			player.jumping = true;
-			console.log(player.fallSpeed);
-			player.fallSpeed = -1*player.jumpSpeed;
-			console.log(player.fallSpeed);
-		}
-	}
 }
 
 function moveUp()
@@ -442,7 +419,7 @@ function startWalking(direction){
 	if(!player.walking)
 	{
 		player.walking = true;
-		walkInterval = setInterval(dir, 15);
+		walkInterval = setInterval(dir, 1000/targetFps);
 	}
 }
 function stopWalking(){
@@ -571,12 +548,4 @@ function respawnCountdown(p, s){
 
 function respawnPlayer(p){
 	p.respawn(200,50);
-}
-function xButtonPressed(){
-	if(menuMode){
-		menu.pushButton();
-	}
-	else{
-		jump();
-	}
 }
