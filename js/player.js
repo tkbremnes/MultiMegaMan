@@ -55,7 +55,7 @@ function Player(startx, starty, color, playerid){
 	this.jumpSpeed = 4.875/1.5;  // This makes Rock jump 50 pixels.
 	this.isHit = false;
 
-	this.moveSpeed = 1.375*1.5; // bounded to fps
+	this.moveSpeed = 1.375*2; // bounded to fps
 	this.jumping = false;
 
 	this.gravity = true;
@@ -110,7 +110,7 @@ Player.prototype.doGravity = function(){
 		this.increaseFallSpeed();
 	}
 
-	
+
 	this.y += this.fallSpeed;
 	this.y = Math.round(this.y);
 }
@@ -134,7 +134,7 @@ Player.prototype.update = function(){
 function drawPlayers(){
 	for(var i=0; i<players.length; i++){
 		var p = players[i];
-		
+		if(p.active){
 		ctx.drawImage(
 			p.getSprite(),
 			p.getSpritePosition(),
@@ -146,12 +146,12 @@ function drawPlayers(){
 			p.spriteWidth,
 			p.spriteHeight
 		);
+		}
 	}
 }
 
 var introAnimInterval;
 function playIntroAnimation(p){
-	console.log("playing animation");
 	if(!p.playIntro){
 		p.playIntro = true;
 		i<ntroAnimInterval = setInterval(function(){

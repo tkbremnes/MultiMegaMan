@@ -65,6 +65,7 @@ io.sockets.on('connection', function (socket)
 
   socket.on('player_hit', function(data){
     players[data.pid].health -= data.damage;
+    console.log(players[data.pid].health);
     socket.broadcast.emit('player_hit', {pid: data.pid, damage: data.damage});
     
     if(players[data.pid].health<0){
@@ -170,25 +171,29 @@ function initPlayers(){
     pid: 0,
     xpos: 20,
     ypos: 50,
-    health: 10
+    health: 28,
+    startHealth: 28
   };
   players[1] = {
     pid: 1,
     xpos: 200,
     ypos: 50,
-    health: 10
+    health: 28,
+    startHealth: 28
   };
   players[2] = {
     pid: 2,
     xpos: 300,
     ypos: 20,
-    health: 10
+    health: 28,
+    startHealth: 28
   };
   players[3] = {
     pid: 3,
     xpos: 380,
     ypos: 50,
-    health: 10
+    health: 28,
+    startHealth: 28
   };
 }
 

@@ -516,5 +516,7 @@ function respawnCountdown(p, s){
 }
 
 function respawnPlayer(p){
-	p.respawn(200,50);
+	p.active = true;
+	p.fallSpeed = 0;
+	p.respawn(200,0);
 }
