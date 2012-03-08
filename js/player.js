@@ -53,9 +53,15 @@ function Player(startx, starty, color, playerid){
 	this.isAirborne = false;
 	this.isShooting = false;
 	this.jumpHeight = 60;
+	this.jumpHeight = 43; // Jumps 43 pixels
+	// Jump time - between 0.6 and 0.7
+	// this.jumpSpeed = 0;
+	this.jumpSpeed = 4.875/2;
+	// this.jumpSpeed = 60;
 	this.isHit = false;
 
 	this.moveSpeed = 2;
+	this.jumping = false;
 
 	this.gravity = true;
 	this.isShooting = false;
@@ -77,8 +83,34 @@ function Player(startx, starty, color, playerid){
 	this.damagedPlayer;
 
 	this.flickerTimer = 0;
+
+	this.fallSpeed = 0;
 }
 
+Player.prototype.hitGround = function() {
+	playSound(soundEffects['9'].buffer);
+
+	this.isAirborne = false;
+	this.fallSpeed = 0;
+};
+
+Player.prototype.increaseFallSpeed = function()
+{
+	this.fallSpeed += gravityConstant;
+};
+
+Player.prototype.doGravity = function(){
+	this.y += this.fallSpeed;
+	
+	if(isStandingOnGround(this)){
+		if(this.fallSpeed>0){
+			this.hitGround();
+		}
+	}
+	else{
+		this.increaseFallSpeed();
+	}
+}
 
 Player.prototype.update = function(){
 	if(this.active){

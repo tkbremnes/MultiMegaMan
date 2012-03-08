@@ -11,6 +11,13 @@ var menuMode;
 var menu;
 var menuInterval;
 
+var targetFps = 30;
+
+// Gravity related variables
+var gravityUpdateInterval = targetFps*2;
+var gravityConstant = 7.5/gravityUpdateInterval; // in MM2, Rock falls at 7.5p/s/s
+
+var collisionDetectorInterval = gravityUpdateInterval; // needs to run at least as often
 
 function init()
 {
@@ -28,8 +35,10 @@ function init()
 
 	menuInterval = window.setInterval(function(){
 		drawIntroMenu();
-	}, 10);
+	}, 1000/targetFps);
 
+	//DEBUG
+	// startGame();
 }
 
 //------------------------------
@@ -94,12 +103,15 @@ function drawIntroMenu(){
 }
 
 function startGame(){
-	playSound(soundEffects['25'].buffer);
+	// playSound(soundEffects['25'].buffer);
 	menuMode = false;
 	window.clearInterval(menuInterval);
 	map = new Map();
-	setInterval('update()', 20);
-	setInterval('doGravity()', 5);
+	setInterval('update()', 1000/targetFps);
+	setInterval('draw()', 1000/targetFps);
+	setInterval('doGravity()', 1000/gravityUpdateInterval);
+	setInterval('collisionDetector();', 1000/collisionDetectorInterval);
+
 }
 
 function initPlayer(data){
@@ -146,8 +158,6 @@ function update(){
 	projectiles.forEach(function(p){
 		p.update();
 	});
-	collisionDetector();
-	draw();
 }
 
 function refreshScreen(){
@@ -219,27 +229,33 @@ function drawServerMenu(){
 	}
 }
 
-
-var fallspeed = 0;
 function doGravity() {
+	// players.forEach(function(p){
+	// 	if(p.gravity){
+	// 		var sog = isStandingOnGround(p);
+	// 		// console.log(sog);
+	// 		if(!sog){
+	// 			p.isAirborne = true;
+	// 			p.increaseFallSpeed();
+	// 		}
+	// 		else{
+	// 			p.isAirborne = false;
+	// 			console.log(p.fallSpeed);
+	// 			if(!p.fallSpeed>=0){
+	// 				p.fallSpeed = 0;
+	// 			}
+	// 		}
+	// 		p.y += p.fallSpeed;
+	// 	}
+	// 	// console.log(p.x + " " + p.y)
+	// });
+	// powerups.forEach(function(p){
+	// 	if(!isStandingOnGround(p)){
+	// 		p.y += 1;
+	// 	}
+	// });
 	players.forEach(function(p){
-		if(p.gravity){
-			if(!isStandingOnGround(p)){
-				p.isAirborne = true;
-				fallspeed += gravity;
-
-				p.y += 1;
-
-			}
-			else{
-				p.isAirborne = false;
-			}
-		}
-	});
-	powerups.forEach(function(p){
-		if(!isStandingOnGround(p)){
-			p.y += 1;
-		}
+		p.doGravity();
 	});
 }
 
@@ -350,11 +366,15 @@ var currentJumpHeight;
 function jump(){
 	if(!player.isAirborne){
 		player.isAirborne = true;
-		player.gravity = false;
+		// player.gravity = false;
 		currentJumpHeight = 0;
 		
 		if(isStandingOnGround()) {
-			jumpInterval = setInterval('moveUp()', 2);
+			// jumpInterval = setInterval('moveUp()', 2);
+			player.jumping = true;
+			console.log(player.fallSpeed);
+			player.fallSpeed = -1*player.jumpSpeed;
+			console.log(player.fallSpeed);
 		}
 	}
 }

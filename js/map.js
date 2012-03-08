@@ -1,4 +1,7 @@
 function Map(){
+	// TODO - decrease cellSize to
+	// cellSize = 16;
+	// needs to update collison detector!
 	cellSize = 32;
 	numberOfCellsVertical = 16;
 	numberOfCellsHorisontal = 16;
@@ -46,9 +49,9 @@ function mapInit(){
 	mapGrid[0] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[1] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[2] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1];
-	mapGrid[3] 	= [0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0];
-	mapGrid[4] 	= [1,1,1,1,0,0,1,1,1,1,1,1,0,0,0,1];
-	mapGrid[5] 	= [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1];
+	mapGrid[3] 	= [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0];
+	mapGrid[4] 	= [1,1,0,1,0,0,1,1,1,1,1,1,0,0,0,1];
+	mapGrid[5] 	= [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1];
 	mapGrid[6] 	= [0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,1];
 	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1];
 	mapGrid[8] 	= [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0];
@@ -119,7 +122,7 @@ function wallSideCollisionDetector(p){
 		if(j<0){
 			return false;
 		}
-	if(p.walksRight){ // Ignore left
+	if(p.walksRight){
 		for(var i=col; i<numberOfCellsHorisontal; i++){
 			if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
 				if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
