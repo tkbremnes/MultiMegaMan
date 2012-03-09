@@ -124,9 +124,9 @@ function leftButtonReleased(){
 	else{
 		goingLeft = false;
 		stopAnimation();
-		setTimeout(function(){
+		// setTimeout(function(){
 			stopWalking();
-		}, 50); 
+		// }, 50); 
 	}
 }
 function rightButtonPressed(){
@@ -142,9 +142,9 @@ function rightButtonReleased(){
 	else{
 		goingRight = false;
 		stopAnimation();
-		setTimeout(function(){
+		// setTimeout(function(){
 			stopWalking();
-		}, 50);
+		// }, 50);
 	}
 }
 

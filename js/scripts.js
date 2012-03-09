@@ -83,8 +83,10 @@ function playSound(buffer) {
 //------------------------------
 
 
-
+var audioElement;
 function startGame(){
+	introMusic.pause();
+
 	playSound(soundEffects['25'].buffer);
 	menuMode = false;
 	window.clearInterval(menuInterval);
@@ -93,6 +95,17 @@ function startGame(){
 	setInterval('draw()', 1000/targetFps);
 	setInterval('doGravity()', 1000/gravityUpdateInterval);
 	setInterval('collisionDetector();', 1000/collisionDetectorInterval);
+
+
+	audioElement = document.createElement('audio');
+	audioElement.setAttribute('src', bgMusic['1'].url);
+	audioElement.play();
+
+	audioElement.addEventListener('ended', function(){
+		console.log("helf");
+		audioElement.currentTime = 0;
+		audioElement.play();
+	}, false);
 
 }
 

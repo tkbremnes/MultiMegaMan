@@ -107,6 +107,7 @@ Player.prototype.doGravity = function(){
 		}
 	}
 	else{
+		this.isAirborne = true;
 		this.increaseFallSpeed();
 	}
 

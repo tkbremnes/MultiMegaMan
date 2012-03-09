@@ -94,8 +94,13 @@ function canvasButton(f, width, height, posX, posY, text, isSelected){
 	this.f = f;
 }
 
+var introMusic;
 function initIntroMenu(){
 	menu = new IntroMenu();
+
+	introMusic = document.createElement('audio');
+	introMusic.setAttribute('src', bgMusic['0'].url);
+	introMusic.play();
 }
 function drawIntroMenu(){
 	ctx.fillStyle = 'rgb(0,0,0)';

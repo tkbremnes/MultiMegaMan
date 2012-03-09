@@ -1,0 +1,10 @@
+bgMusic = {
+	'0':{
+		buffer: null,
+		url: '../audio/title.mp3'
+		},
+	'1': {
+		buffer: null,
+		url: '../audio/bg.mp3'
+	}
+}

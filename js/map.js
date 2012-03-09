@@ -53,10 +53,10 @@ function mapInit(){
 	mapGrid[4] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[5] 	= [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[6] 	= [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[8] 	= [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[8] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[9] 	= [0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[10] = [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[10] = [0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[11] = [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1];
 	mapGrid[12] = [0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[13] = [0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -101,7 +101,7 @@ function wallBottomCollisionDetector(p){
 				if(col+j>=0 && row+i>=0){
 				var c=mapGrid[col+j][row+i];
 				if(c!==undefined && c!==0){
-					if(collides(p, c, 0, Math.floor(p.fallSpeed))){
+					if(collides(p, c, 0, 0)){// Math.floor(p.fallSpeed))){
 						return true;
 					}
 				}
@@ -149,6 +149,41 @@ function wallTopCollisonDetector(p){
 
 function wallSideCollisionDetector(p){
 
+
+	var row = Math.floor((p.y)/cellSize);
+	var col = Math.floor((p.x)/cellSize);
+
+	if(p.walksRight){
+		for(var i=-2; i<=1; i++){
+			c=mapGrid[col+1][row+i];
+			if(c!=undefined && c!=0){
+				if(collides(p, c, 0, 0)){
+					return true;
+				}
+			}
+
+
+		}
+		var c=mapGrid[col+1][row+2];
+			if(c!=undefined && c!=0){
+				if(collides(p, c, 0, 0)){
+					return true;
+				}
+			}
+	}
+	else{
+		for(var i=-2; i<=1; i++){
+			var c=mapGrid[col][row+i];
+			if(c!=undefined && c!=0){
+				if(collides(p, c, 0, 0)){
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+
+
 	// Finds row
 	var row = Math.floor((p.y)/cellSize)+1;
 	var col = Math.floor((p.x)/cellSize);
@@ -161,7 +196,7 @@ function wallSideCollisionDetector(p){
 			return false;
 		}
 	if(p.walksRight){
-		for(var i=col; i<numberOfCellsHorisontal; i++){
+		for(var i=col; i<col+1; i++){
 			if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
 				if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
 					return true;
