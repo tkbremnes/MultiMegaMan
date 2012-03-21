@@ -117,7 +117,7 @@ function leftButtonPressed(){
 	}
 	else{
 		dirArray.push('L');
-		goLeft();
+		// goLeft();
 	}
 }
 function leftButtonReleased(){
@@ -129,9 +129,9 @@ function leftButtonReleased(){
 				dirArray.splice(pos, 1);
 			}
 		});
-		goingLeft = false;
-		stopAnimation();
-		stopWalking(); 
+		// goingLeft = false;
+		// stopAnimation();
+		// stopWalking(); 
 	}
 }
 function rightButtonPressed(){
@@ -139,7 +139,7 @@ function rightButtonPressed(){
 	}
 	else{
 		dirArray.push('R');
-		goRight();
+		// goRight();
 	}
 }
 function rightButtonReleased(){
@@ -151,9 +151,9 @@ function rightButtonReleased(){
 				dirArray.splice(pos, 1);
 			}
 		});
-		goingRight = false;
-		stopAnimation();
-		stopWalking();
+		// goingRight = false;
+		// stopAnimation();
+		// stopWalking();
 	}
 }
 
@@ -203,4 +203,13 @@ function zButtonPressed(){
 
 function zButtonReleased(){
 	// body
+}
+
+function getInput(){
+	if(dirArray.length > 0){
+		return dirArray[dirArray.length-1];
+	}
+	else{
+		return "";
+	}
 }

@@ -33,12 +33,54 @@ function init()
 	initIntroMenu();
 	menuMode = true;
 
+	inputInterval = window.setInterval(function(){
+		getKeyInput();
+	}, 1);
+
 	menuInterval = window.setInterval(function(){
 		drawIntroMenu();
 	}, 1000/targetFps);
 
 	//DEBUG
 	// startGame();
+}
+
+var prevInput = '';
+function getKeyInput(){
+	if(!menuMode){
+		var input = getInput();
+		if(input != prevInput || prevInput == ''){
+
+		stopAnimation();
+		stopWalking();
+		switch(input){
+			case 'R':
+				console.log("go right");
+				goRight();
+				break;
+			case 'L':
+				console.log("go left");
+				goLeft();
+				break;
+			default:
+				stopAnimation();
+				stopWalking();
+				break;
+		}
+		}
+		prevInput = input;
+	}
+}
+
+
+function goLeft(){
+	startWalking('L');
+	startAnimation();
+}
+
+function goRight(){
+	startWalking('R');
+	startAnimation();
 }
 
 //------------------------------
@@ -416,17 +458,6 @@ function stopAnimation(){
 	player.animating = false;
 }
 
-var goingLeft;
-function goLeft(){
-	startWalking('L');
-	startAnimation();
-}
-
-var goingRight;
-function goRight(){
-	startWalking('R');
-	startAnimation();
-}
 
 var projectiles = [];
 var projectileInverval;
