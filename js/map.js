@@ -165,26 +165,19 @@ function wallSideCollisionDetector(p){
 			c=mapGrid[col+2][row+i];
 			if(c!=undefined && c!=0){
 				if(collides(p, c, 4, 0)){
-					console.log("Kollisjon høyre");
+					console.log("why!?");
 					return true;
 				}
 			}
 
 		}
-		// var c=mapGrid[col+1][row+2];
-		// 	if(c!=undefined && c!=0){
-		// 		if(collides(p, c, 0, 0)){
-		// 			return true;
-		// 		}
-		// 	}
 	}
 	else{
 		for(var i=-4; i<=1; i++){
-			var c=mapGrid[col][row+i];
+			var c=mapGrid[col-1][row+i];
 			if(c!=undefined && c!=0){
-				if(collides(p, c, -10, 0)){
-
-					console.log("Kollisjon venstre");
+				if(collides(c, p, 2, 0)){
+					console.log("left!");
 					return true;
 				}
 			}

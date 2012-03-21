@@ -275,14 +275,8 @@ function collisionDetector()
 }
 
 // source: http://www.html5rocks.com/en/tutorials/canvas/notearsgame/#toc-collision-detection
-// function collides(a, b) {
-//   return a.x < b.x + b.width &&
-//          a.x + a.width > b.x &&
-//          a.y < b.y + b.height &&
-//          a.y + a.height > b.y;
-// }
-
-function collides(a, b, offsetX, offsetY) {
+function collides(a, b, offsetX, offsetY)
+{
   	return a.x < b.x + b.width &&
          a.x+offsetX + a.width > b.x &&
          a.y < b.y + b.height &&
@@ -294,16 +288,16 @@ function moveLeft()
 {
 	player.walksRight = false;
 
-	if(!wallSideCollisionDetector(player)){
-		if(player.x>=10){
+	if(!wallSideCollisionDetector(player))
+	{
+		if(player.x>=10)
+		{
 			player.x -= player.moveSpeed;
 			player.x = Math.round(player.x);
 		}
 	}
-	else{
-		console.log("collision");
-	}
-	if(!player.animating && !player.isAirborne){
+	if(!player.animating && !player.isAirborne)
+	{
 		startAnimation();
 	}
 
@@ -316,15 +310,14 @@ function moveRight()
 	
 	if(!wallSideCollisionDetector(player))
 	{
-		if(player.x<=500-player.width){
+		if(player.x<=500-player.width)
+		{
 			player.x += player.moveSpeed;
 			player.x = Math.round(player.x);
 		}
 	}
-	else{
-		console.log("collision");
-	}
-	if(!player.animating && !player.isAirborne){
+	if(!player.animating && !player.isAirborne)
+	{
 		startAnimation();
 	}
 
