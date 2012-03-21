@@ -8,7 +8,7 @@ var keyDownObj = {
 	kd: false
 };
 
-// var dirArray;
+ var dirArray = [];
 
 function initKeyListener()
 {
@@ -70,6 +70,7 @@ function initKeyListener()
 				break;
 
 		}
+		console.log(dirArray);
 	});
 	$(document).bind('keyup',function(e){
 		switch(e.keyCode)
@@ -115,6 +116,7 @@ function leftButtonPressed(){
 	if(menuMode){
 	}
 	else{
+		dirArray.push('L');
 		goLeft();
 	}
 }
@@ -122,17 +124,21 @@ function leftButtonReleased(){
 	if(menuMode){
 	}
 	else{
+		dirArray.forEach(function(dir, pos){
+			if(dir==='L'){
+				dirArray.splice(pos, 1);
+			}
+		});
 		goingLeft = false;
 		stopAnimation();
-		// setTimeout(function(){
-			stopWalking();
-		// }, 50); 
+		stopWalking(); 
 	}
 }
 function rightButtonPressed(){
 	if(menuMode){
 	}
-	else{	
+	else{
+		dirArray.push('R');
 		goRight();
 	}
 }
@@ -140,11 +146,14 @@ function rightButtonReleased(){
 	if(menuMode){
 	}
 	else{
+		dirArray.forEach(function(dir, pos){
+			if(dir==='R'){
+				dirArray.splice(pos, 1);
+			}
+		});
 		goingRight = false;
 		stopAnimation();
-		// setTimeout(function(){
-			stopWalking();
-		// }, 50);
+		stopWalking();
 	}
 }
 

@@ -96,8 +96,8 @@ function wallBottomCollisionDetector(p){
 	var row = Math.floor((p.y)/cellSize);
 	var col = Math.floor((p.x)/cellSize);
 
-	for(var i=-1; i<=2; i++){
-		for(var j=-1; j<=2; j++){
+	for(var i=-2; i<=2; i++){
+		for(var j=-2; j<=2; j++){
 				if(col+j>=0 && row+i>=0){
 				var c=mapGrid[col+j][row+i];
 				if(c!==undefined && c!==0){
@@ -118,7 +118,7 @@ function wallTopCollisonDetector(p){
 	var row = Math.floor((p.y)/cellSize);
 	var col = Math.floor((p.x)/cellSize);
 
-	for(var i=0; i<=3; i++){
+	for(var i=-1; i<=3; i++){
 		for(var j=-2; j<=3; j++){
 			if(col-j>=0 && row-i>=0){
 			var c=mapGrid[col-j][row-i];
@@ -129,21 +129,7 @@ function wallTopCollisonDetector(p){
 			}
 			}
 		}
-	}
-
-
-	// if(mapGrid[col][row-1]!=0){
-	// 	if(collides(p, mapGrid[col][row-1], 0, Math.ceil(p.fallSpeed))){
-	// 		return true;
-	// 	}
-	// }
-
-	// if(mapGrid[col+1][row-1]!=0){
-	// 	if(collides(p, mapGrid[col+1][row-1], 0, Math.ceil(p.fallSpeed))){
-	// 		return true;
-	// 	}
-	// }
-	
+	}	
 	return false;
 }
 
@@ -184,37 +170,4 @@ function wallSideCollisionDetector(p){
 		}
 	}
 	return false;
-
-
-	// Finds row
-	// var row = Math.floor((p.y)/cellSize)+1;
-	// var col = Math.floor((p.x)/cellSize);
-	// if(row<0 || col<0){
-	// 	return false;
-	// }
-
-	// for(var j=row; j>=row-1; j--){
-	// 	if(j<0){
-	// 		return false;
-	// 	}
-	// if(p.walksRight){
-	// 	for(var i=col; i<col+1; i++){
-	// 		if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
-	// 			if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
-	// 				return true;
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// else{
-	// 	for(var i=col; i>=0; i--){
-	// 		if(collides(p, mapGrid[i][j], -1*p.moveSpeed, 0)){
-	// 			if(!mapGrid[i][j].isBelow(p)){
-	// 				return true;
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// }
-	// return false;
 }
