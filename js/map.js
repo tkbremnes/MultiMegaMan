@@ -53,7 +53,7 @@ function mapInit(){
 	mapGrid[4] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[5] 	= [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[6] 	= [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-	mapGrid[7] 	= [0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+	mapGrid[7] 	= [1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[8] 	= [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[9] 	= [0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
 	mapGrid[10] = [0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -154,28 +154,37 @@ function wallSideCollisionDetector(p){
 	var col = Math.floor((p.x)/cellSize);
 
 	if(p.walksRight){
-		for(var i=-2; i<=1; i++){
-			c=mapGrid[col+1][row+i];
+		var ting;
+		if(p.isAirborne){
+			ting = 3;
+		}
+		else{
+			ting = 1;
+		}
+		for(var i=-4; i<=ting; i++){
+			c=mapGrid[col+2][row+i];
 			if(c!=undefined && c!=0){
-				if(collides(p, c, 0, 0)){
+				if(collides(p, c, 4, 0)){
+					console.log("Kollisjon høyre");
 					return true;
 				}
 			}
-
 
 		}
-		var c=mapGrid[col+1][row+2];
-			if(c!=undefined && c!=0){
-				if(collides(p, c, 0, 0)){
-					return true;
-				}
-			}
+		// var c=mapGrid[col+1][row+2];
+		// 	if(c!=undefined && c!=0){
+		// 		if(collides(p, c, 0, 0)){
+		// 			return true;
+		// 		}
+		// 	}
 	}
 	else{
-		for(var i=-2; i<=1; i++){
+		for(var i=-4; i<=1; i++){
 			var c=mapGrid[col][row+i];
 			if(c!=undefined && c!=0){
-				if(collides(p, c, 0, 0)){
+				if(collides(p, c, -10, 0)){
+
+					console.log("Kollisjon venstre");
 					return true;
 				}
 			}
@@ -185,34 +194,34 @@ function wallSideCollisionDetector(p){
 
 
 	// Finds row
-	var row = Math.floor((p.y)/cellSize)+1;
-	var col = Math.floor((p.x)/cellSize);
-	if(row<0 || col<0){
-		return false;
-	}
+	// var row = Math.floor((p.y)/cellSize)+1;
+	// var col = Math.floor((p.x)/cellSize);
+	// if(row<0 || col<0){
+	// 	return false;
+	// }
 
-	for(var j=row; j>=row-1; j--){
-		if(j<0){
-			return false;
-		}
-	if(p.walksRight){
-		for(var i=col; i<col+1; i++){
-			if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
-				if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
-					return true;
-				}
-			}
-		}
-	}
-	else{
-		for(var i=col; i>=0; i--){
-			if(collides(p, mapGrid[i][j], -1*p.moveSpeed, 0)){
-				if(!mapGrid[i][j].isBelow(p)){
-					return true;
-				}
-			}
-		}
-	}
-	}
-	return false;
+	// for(var j=row; j>=row-1; j--){
+	// 	if(j<0){
+	// 		return false;
+	// 	}
+	// if(p.walksRight){
+	// 	for(var i=col; i<col+1; i++){
+	// 		if(collides(p, mapGrid[i][j], p.moveSpeed, 0)){
+	// 			if(mapGrid[i][j]!=0 && !mapGrid[i][j].isBelow(p)){
+	// 				return true;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// else{
+	// 	for(var i=col; i>=0; i--){
+	// 		if(collides(p, mapGrid[i][j], -1*p.moveSpeed, 0)){
+	// 			if(!mapGrid[i][j].isBelow(p)){
+	// 				return true;
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// }
+	// return false;
 }

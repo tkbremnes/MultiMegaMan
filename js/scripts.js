@@ -283,9 +283,9 @@ function collisionDetector()
 // }
 
 function collides(a, b, offsetX, offsetY) {
-  	return a.x+offsetX < b.x + b.width &&
+  	return a.x < b.x + b.width &&
          a.x+offsetX + a.width > b.x &&
-         a.y+offsetY < b.y + b.height &&
+         a.y < b.y + b.height &&
          a.y+offsetY + a.height > b.y;
 }
 
@@ -300,6 +300,9 @@ function moveLeft()
 			player.x = Math.round(player.x);
 		}
 	}
+	else{
+		console.log("collision");
+	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
 	}
@@ -311,13 +314,15 @@ function moveRight()
 {
 	player.walksRight = true;
 	
-	// TODO
 	if(!wallSideCollisionDetector(player))
 	{
 		if(player.x<=500-player.width){
 			player.x += player.moveSpeed;
 			player.x = Math.round(player.x);
 		}
+	}
+	else{
+		console.log("collision");
 	}
 	if(!player.animating && !player.isAirborne){
 		startAnimation();
