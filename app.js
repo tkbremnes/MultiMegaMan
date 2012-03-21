@@ -41,6 +41,7 @@ io.sockets.on('connection', function (socket)
 {  
   socket.on('client_ready', function(data){
     var pid = createPid();
+    console.log("Creating player");
     socket.emit('player_start', {pid: pid, xpos: players[pid].xpos, ypos: players[pid].ypos});
 
     players.forEach(function(p){

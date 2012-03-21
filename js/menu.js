@@ -1,29 +1,3 @@
-var servers = [];
-
-servers[0] = {
-	title: 'Dette er en server',
-	ip: '129.241.127.32:1338',
-	noOfPlayers: 0,
-	ping: 0,
-	isSelected: true
-};
-
-servers[1] = {
-	title: 'Ikke-eksisterende server',
-	ip: '129.241.127.32:1339',
-	noOfPlayers: 1,
-	ping: 50,
-	isSelected: false
-};
-
-// TODO
-var servermenu = {
-	active: true,
-	height: 300,
-	width: 300,
-	selectedServer: 0
-};
-
 function IntroMenu(){
 	this.active = true;
 	this.height = 512;
@@ -32,14 +6,14 @@ function IntroMenu(){
 	this.introMessage = "Welcome to Multi Mega Man!";
 
 	var options = function(){
-		console.log("hello world");
+		listServers();
 	}
 	var start = function(){
 		startGame();
 	}
 
 	this.startButton = new canvasButton(start, 100, 50, 200, 300, "Start game", true);
-	this.dummyButton = new canvasButton(options, 100, 50, 200, 400, "Do nothing", false);
+	this.dummyButton = new canvasButton(options, 100, 50, 200, 400, "List servers", false);
 
 	this.buttons = [this.startButton, this.dummyButton];
 	this.selectedButton = 0;
@@ -100,7 +74,9 @@ function initIntroMenu(){
 
 	introMusic = document.createElement('audio');
 	introMusic.setAttribute('src', bgMusic['0'].url);
-	introMusic.play();
+	if(!soundMuted){
+		introMusic.play();
+	}
 }
 function drawIntroMenu(){
 	ctx.fillStyle = 'rgb(0,0,0)';

@@ -19,13 +19,13 @@ var gravityConstant = 7.5/gravityUpdateInterval; // in MM2, Rock falls at 7.5p/s
 
 var collisionDetectorInterval = gravityUpdateInterval; // needs to run at least as often
 
+var soundMuted = true;
+
 function init()
 {
 	lifeBarSpriteImage = new Image();
 	lifeBarSpriteImage.src = '../img/lifeBar.gif';
 	initSoundEffects();
-
-	socket.emit('client_ready', {});
 
 	initCanvas();
 	initKeyListener();
@@ -75,16 +75,19 @@ function bufferReader(sfx){
 var audioContext = new webkitAudioContext();
 
 function playSound(buffer) {
-	var source = audioContext.createBufferSource(); // creates a sound source
-	source.buffer = buffer;                    		// tell the source which sound to play
-	source.connect(audioContext.destination);       // connect the source to the context's destination (the speakers)
-	source.noteOn(0);                          		// play the source now
+	if(!soundMuted){
+		var source = audioContext.createBufferSource(); // creates a sound source
+		source.buffer = buffer;                    		// tell the source which sound to play
+		source.connect(audioContext.destination);       // connect the source to the context's destination (the speakers)
+		source.noteOn(0);                          		// play the source now
+	}
 }
 //------------------------------
 
 
 var audioElement;
 function startGame(){
+	initSocket();
 	introMusic.pause();
 
 	playSound(soundEffects['25'].buffer);
@@ -99,7 +102,10 @@ function startGame(){
 
 	audioElement = document.createElement('audio');
 	audioElement.setAttribute('src', bgMusic['1'].url);
-	audioElement.play();
+
+	if(!soundMuted){
+		audioElement.play();
+	}
 
 	audioElement.addEventListener('ended', function(){
 		console.log("helf");
@@ -508,4 +514,8 @@ function respawnPlayer(p){
 	p.active = true;
 	p.fallSpeed = 0;
 	p.respawn(200,0);
+}
+
+function toogleMute(){
+	soundMuted = false;
 }

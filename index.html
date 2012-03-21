@@ -14,6 +14,7 @@
     		<h1>2D game demo</h1>
   		</header>
 		<div id="main_wrapper">
+			<button onclick="toogleMute()">Mute</button>
 			<canvas width="512" height="512" id="canvas"></canvas>
 			<div id="controls_legend">
 			<p>Arrow keys: move | x: jump | z: fire</p>
@@ -37,47 +38,23 @@
 	<script type="text/javascript" src="js/map.js"></script>
 	<script type="text/javascript" src="js/mapCell.js"></script>
 	<script type="text/javascript" src="js/powerup.js"></script>
-  <script type="text/javascript" src="js/menu.js"></script>
-  <script type="text/javascript" src="js/soundEffects.js"></script>
-	<script type="text/javascript" src="js/music.json"></script>
+  	<script type="text/javascript" src="js/menu.js"></script>
+  	<script type="text/javascript" src="js/soundEffects.js"></script>
+  	<script type="text/javascript" src="js/music.json"></script>
+  	<script type="text/javascript" src="js/socket.js"></script>
+	// <script type="text/javascript" src="js/serverBrowser.js"></script>
 
 
 	<script type="text/javascript" src="js/keylistener.js"></script>
 
 	<script src="/socket.io/socket.io.js"></script>
-	<script>
-  		var socket = io.connect('http://localhost');
-  		
-  		socket.on('player_pos', function (data) {
-    		updatePlayer(data.pid, data.xpos, data.ypos);
-  		});
-  		socket.on('player_start', function(data){
-  			initPlayer(data);
-  		});
-  		socket.on('init_opponent', function(data){
-  			initOpponent(data);
-  		});
-  		socket.on('fire_projectile', function(data){
-  			projectiles.push(new Projectile(players[data.pid]));
-  		});
-  		socket.on('respawn_player', function(data){
-  			// players[1].respawn(300,50);
-  			respawnPlayer(players[data.pid]);
-  		});
-  		socket.on('kill_player', function(data){
-  			players[data.pid].destroy();
-  		});
-  		socket.on('player_hit', function(data){
-  			players[data.pid].hit(data.damage);
-  		});
-  		socket.on('spawn_powerup', function(data){
-  			powerups.push(new PowerUpProjectileSpeed(data.posX, data.posY));
-  		});
-	</script>
 
 
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript">$(document).ready(init());</script>
+
+	<!-- LiveReload related script -->
+	<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </body>
 </html>
 
