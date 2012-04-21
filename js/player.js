@@ -96,24 +96,24 @@ Player.prototype.increaseFallSpeed = function()
 Player.prototype.doGravity = function(){
 	if(this.isAirborne){
 		if(wallTopCollisonDetector(this)){
+			this.y-=Math.ceil(this.fallSpeed);
 			this.stopJump();
 		}
-	}
 
-	
-	if(isStandingOnGround(this)){
-		if(this.fallSpeed>0){
+		if(wallBottomCollisionDetector(this)){
 			this.hitGround();
 		}
 	}
-	else{
+
+	// if(isStandingOnGround(this)){
+	
+	if(!wallBottomCollisionDetector(this)){
 		this.isAirborne = true;
 		this.increaseFallSpeed();
 	}
 
 
-	this.y += this.fallSpeed;
-	this.y = Math.round(this.y);
+	this.y += Math.ceil(this.fallSpeed);
 }
 
 Player.prototype.update = function(){

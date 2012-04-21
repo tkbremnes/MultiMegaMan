@@ -101,7 +101,7 @@ function wallBottomCollisionDetector(p){
 				if(col+j>=0 && row+i>=0){
 				var c=mapGrid[col+j][row+i];
 				if(c!==undefined && c!==0){
-					if(collides(p, c, 0, 0)){// Math.floor(p.fallSpeed))){
+					if(collides(p, c, 0, Math.floor(p.fallSpeed))){
 						return true;
 					}
 				}
