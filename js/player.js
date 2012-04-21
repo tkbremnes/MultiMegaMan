@@ -52,7 +52,7 @@ function Player(startx, starty, color, playerid){
 
 	this.isAirborne = false;
 	this.isShooting = false;
-	this.jumpSpeed = 4.875/1.5;  // This makes Rock jump 50 pixels.
+	this.jumpSpeed = 4.875/1.4;  // This makes Rock jump 50 pixels.
 	this.isHit = false;
 
 	this.moveSpeed = 1.375*2; // bounded to fps

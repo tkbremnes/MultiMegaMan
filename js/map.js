@@ -139,19 +139,20 @@ function wallSideCollisionDetector(p){
 	var row = Math.floor((p.y)/cellSize);
 	var col = Math.floor((p.x)/cellSize);
 
-	if(p.walksRight){
-		var ting;
+	var ting;
 		if(p.isAirborne){
 			ting = 3;
 		}
 		else{
 			ting = 1;
 		}
+
+	if(p.walksRight){
+		
 		for(var i=-4; i<=ting; i++){
 			c=mapGrid[col+2][row+i];
 			if(c!=undefined && c!=0){
 				if(collides(p, c, 4, 0)){
-					console.log("why!?");
 					return true;
 				}
 			}
@@ -159,7 +160,7 @@ function wallSideCollisionDetector(p){
 		}
 	}
 	else{
-		for(var i=-4; i<=1; i++){
+		for(var i=-4; i<=ting; i++){
 			var c=mapGrid[col-1][row+i];
 			if(c!=undefined && c!=0){
 				if(collides(c, p, 2, 0)){
